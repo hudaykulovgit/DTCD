@@ -44,8 +44,8 @@
 </div>
 
 <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Эл. почта" value="{{ email }}" on-change="{{ onEmailChange }}" hint-size="100%,44px"></x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Пароль" type="password" value="{{ password }}" on-change="{{ onPasswordChange }}" hint-size="100%,44px"></x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Эл. почта" value="{{ email }}" on-change="{{ onEmailChange }}" on-key-down="{{ onKeyDown }}" hint-size="100%,44px"></x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Пароль" type="password" value="{{ password }}" on-change="{{ onPasswordChange }}" on-key-down="{{ onKeyDown }}" hint-size="100%,44px"></x-import>
 </div>
 
 <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
@@ -206,14 +206,18 @@ class Component extends DCLogic {
       },
       onEmailChange: (e) => this.setState({ email: e.target.value, error: '' }),
       onPasswordChange: (e) => this.setState({ password: e.target.value, error: '' }),
-      onLogin: () => {
-        if (!this.state.email || !this.state.password) {
-          this.setState({ error: 'Введите эл. почту и пароль.' });
-          return;
-        }
-        window.location.href = './dashboard.html';
+      onLogin: () => this.doLogin(),
+      onKeyDown: (e) => {
+        if (e.key === 'Enter') this.doLogin();
       }
     };
+  }
+  doLogin() {
+    if (!this.state.email || !this.state.password) {
+      this.setState({ error: 'Введите эл. почту и пароль.' });
+      return;
+    }
+    window.location.href = './dashboard.html';
   }
 }
 </script>
