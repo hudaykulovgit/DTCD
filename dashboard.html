@@ -25,7 +25,7 @@ window.__resources = {
 <script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
 <style>body{margin:0;background:var(--bg-canvas)}*{box-sizing:border-box}a{color:var(--text-link)}a:hover{text-decoration:underline}table{border-collapse:collapse}</style>
 </helmet>
-<div style="font-family:var(--font-sans);min-height:100vh;display:flex;flex-direction:column;background:var(--bg-canvas);color:var(--text-primary)">
+<div style="font-family:var(--font-sans);height:100vh;display:flex;flex-direction:column;background:var(--bg-canvas);color:var(--text-primary)">
 
 <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 28px;background:var(--bg-surface-dark)">
 <span class="type-caption-upper" style="color:var(--text-on-dark);font-family:var(--font-mono)">Министерство экономики и финансов</span>
@@ -464,7 +464,37 @@ window.__resources = {
 </div>
 
 <div style="border-left:1px solid var(--border-default);padding:0 32px 48px">
-<x-import name="DocInspector" hint-size="100%,400px"></x-import>
+<h2 class="type-display-sm" style="margin:0 0 4px">{{ dd.inspector.name }}</h2>
+<p class="type-body-sm" style="color:var(--text-muted);margin:0 0 16px">{{ dd.inspector.subtitle }}</p>
+<sc-for list="{{ dd.inspector.meta }}" as="m" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)">
+<div class="type-caption" style="color:var(--text-muted)">{{ m.label }}</div>
+<div class="type-body-sm">{{ m.value }}</div>
+</div>
+</sc-for>
+<div style="border:1px solid var(--border-default);border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;gap:10px;margin:16px 0">
+<span class="type-body-sm">{{ dd.inspector.fileLabel }}</span>
+<div style="flex:1"></div>
+<button onClick="{{ dd.inspector.onDownload }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:12px">Скачать</button>
+</div>
+<h3 class="type-title-sm" style="margin:16px 0 10px">Подтверждение</h3>
+<sc-for list="{{ dd.inspector.confirm }}" as="cf" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)">
+<div class="type-caption" style="color:var(--text-muted)">{{ cf.label }}</div>
+<sc-if value="{{ cf.isBadge }}" hint-placeholder-val="{{ false }}"><div><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ cf.badgeVariant }}" hint-size="auto,22px">{{ cf.value }}</x-import></div></sc-if>
+<sc-if value="{{ cf.isText }}" hint-placeholder-val="{{ true }}"><div class="type-body-sm">{{ cf.value }}</div></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ dd.inspector.warnReview }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin-top:14px">Не включён в принятые работы: согласование не завершено.</p></sc-if>
+<sc-if value="{{ dd.inspector.warnRecon }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin-top:14px">Не сопоставлен платёж на 50 млн сум. Требуется подтверждение в источнике.</p></sc-if>
+<div style="display:flex;gap:10px;margin-top:16px">
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ dd.inspector.onPreview }}" hint-size="auto,40px">Открыть документ</x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ dd.inspector.onVersions }}" hint-size="auto,40px">История версий</x-import>
+</div>
+<div style="display:flex;gap:16px;margin-top:14px">
+<button onClick="{{ dd.inspector.onSource }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:13px">Открыть источник</button>
+</div>
+<p class="type-caption" style="color:var(--text-muted);margin-top:16px">PDF — демонстрационный образец, не официальный документ.</p>
 <div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border-default)">
 <h3 class="type-title-sm" style="margin:0 0 12px">Обсуждение</h3>
 <sc-if value="{{ dd.discussion.empty }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--text-muted);margin:0 0 14px">Пока нет комментариев.</p></sc-if>
