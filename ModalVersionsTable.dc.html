@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Версия</th><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Содержание</th><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Состояние</th></tr></thead>
+<tbody><sc-for list="{{ data }}" as="v" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">v{{ v.v }}</td><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">{{ v.label }}</td><td style="padding:8px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ v.variant }}" hint-size="auto,22px">{{ v.status }}</x-import></td></tr></sc-for></tbody></table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>

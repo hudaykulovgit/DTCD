@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Работа</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Кол-во</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Ед.</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Цена</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th></tr></thead>
+<tbody><sc-for list="{{ rows }}" as="ar" hint-placeholder-count="3"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.name }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.qty }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.unit }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.price }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.sum }}</td></tr></sc-for>
+<tr><td colspan="4" style="padding:12px 10px;font-weight:600" class="type-body-sm">Итого</td><td style="text-align:right;padding:12px 10px;font-weight:600" class="type-body-sm">{{ total }}</td></tr>
+</tbody></table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;rows&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;total&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>

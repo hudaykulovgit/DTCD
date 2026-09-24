@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Договор</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Период</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма, млн сум</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
+<tbody><sc-for list="{{ contracts }}" as="ct" hint-placeholder-count="1"><tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><button onClick="{{ ct.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ ct.name }}</button></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ct.period }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ct.amount }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ ct.statusVariant }}" hint-size="auto,22px">{{ ct.status }}</x-import></td></tr></sc-for></tbody></table>
+<sc-if value="{{ hasLedger }}" hint-placeholder-val="{{ false }}">
+<h3 class="type-title-sm" style="margin:24px 0 12px">Движение по договору Д-026</h3>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Документ</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Дата</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Оплачено</th></tr></thead>
+<tbody><sc-for list="{{ ledger }}" as="lg" hint-placeholder-count="5"><tr><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><sc-if value="{{ lg.clickable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lg.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ lg.label }}</button></sc-if><sc-if value="{{ lg.notClickable }}" hint-placeholder-val="{{ true }}"><span class="type-body-sm">{{ lg.label }}</span></sc-if></td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.date }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.accepted }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.paid }}</td></tr></sc-for></tbody></table>
+</sc-if>
+<sc-if value="{{ noLedger }}" hint-placeholder-val="{{ true }}"><p class="type-caption" style="color:var(--text-muted);margin-top:16px">Детализация платежей в демонстрации доступна для Open-budget.</p></sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;contracts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;hasLedger&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;noLedger&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;ledger&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>

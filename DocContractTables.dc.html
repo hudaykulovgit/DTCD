@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<h2 class="type-display-sm" style="margin:0 0 14px">Предмет и распределение</h2>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Система</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Год</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Вид работ</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th></tr></thead>
+<tbody><sc-for list="{{ subject }}" as="su" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.system }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.year }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.type }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.amount }}</td></tr></sc-for></tbody></table>
+<h3 class="type-title-sm" style="margin:22px 0 12px">План исполнения</h3>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Квартал</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">План</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Срок</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Приёмка</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th></tr></thead>
+<tbody><sc-for list="{{ quarters }}" as="q" hint-placeholder-count="4"><tr><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.q }} квартал</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.plan }}</td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.due }}</td><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ q.statusVariant }}" hint-size="auto,22px">{{ q.status }}</x-import></td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.accepted }}</td></tr></sc-for></tbody></table>
+<h3 class="type-title-sm" style="margin:22px 0 12px">Связанные акты</h3>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Акт</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Период</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
+<tbody><sc-for list="{{ acts }}" as="ac" hint-placeholder-count="3"><tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><button onClick="{{ ac.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ ac.number }}</button></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ac.period }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ac.amount }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ ac.statusVariant }}" hint-size="auto,22px">{{ ac.status }}</x-import></td></tr></sc-for></tbody></table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;subject&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;quarters&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;acts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<h2 class="type-display-sm" style="margin:0 0 14px">Сопоставление сторон</h2>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Показатель</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Министерство</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">ИТ-центр</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Разница</th></tr></thead>
+<tbody><sc-for list="{{ rows }}" as="rr" hint-placeholder-count="4"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.label }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.a }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.b }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.diff }}</td></tr></sc-for></tbody></table>
+<h3 class="type-title-sm" style="margin:22px 0 12px">Хронология документов</h3>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Документ</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Дата</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Оплачено</th></tr></thead>
+<tbody><sc-for list="{{ ledger }}" as="lg2" hint-placeholder-count="5"><tr><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><sc-if value="{{ lg2.clickable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lg2.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ lg2.label }}</button></sc-if><sc-if value="{{ lg2.notClickable }}" hint-placeholder-val="{{ true }}"><span class="type-body-sm">{{ lg2.label }}</span></sc-if></td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.date }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.accepted }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.paid }}</td></tr></sc-for></tbody></table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;rows&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;},&quot;ledger&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>
