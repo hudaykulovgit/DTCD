@@ -204,8 +204,8 @@ class Component extends DCLogic {
       onSso: () => {
         window.location.href = './dashboard.html';
       },
-      onEmailChange: (v) => this.setState({ email: v, error: '' }),
-      onPasswordChange: (v) => this.setState({ password: v, error: '' }),
+      onEmailChange: (e) => this.setState({ email: e.target.value, error: '' }),
+      onPasswordChange: (e) => this.setState({ password: e.target.value, error: '' }),
       onLogin: () => {
         if (!this.state.email || !this.state.password) {
           this.setState({ error: 'Введите эл. почту и пароль.' });
