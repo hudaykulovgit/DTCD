@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23171717'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='17' font-weight='700' fill='white' text-anchor='middle'%3E%D0%9C%3C/text%3E%3C/svg%3E">
+<script>
+window.__resources = {
+  'https://unpkg.com/react@18.3.1/umd/react.production.min.js': './_vendor/react.production.min.js',
+  'https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js': './_vendor/react-dom.production.min.js'
+};
+</script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -24,7 +31,7 @@
 <span class="type-caption-upper" style="color:var(--text-on-dark);font-family:var(--font-mono)">Министерство экономики и финансов</span>
 <div style="display:flex;align-items:center;gap:16px">
 <span class="type-caption-upper" style="color:var(--text-on-dark-soft);font-family:var(--font-mono);letter-spacing:0.06em">Прототип · демонстрационные данные</span>
-<a href="./Login.dc.html" class="type-caption-upper" style="color:var(--text-on-dark-soft);font-family:var(--font-mono);text-decoration:none;border-left:1px solid var(--text-on-dark-soft);padding-left:16px">Выйти</a>
+<a href="./index.html" onclick="{{ onLogout }}" class="type-caption-upper" style="color:var(--text-on-dark-soft);font-family:var(--font-mono);text-decoration:none;border-left:1px solid var(--text-on-dark-soft);padding-left:16px">Выйти</a>
 </div>
 </div>
 
@@ -36,7 +43,7 @@
 </div>
 </div>
 
-<div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow-y:auto">
+<div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow-y:auto;width:100%;max-width:1440px;margin:0 auto">
 
 <!-- OVERVIEW -->
 <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ false }}">
@@ -697,9 +704,11 @@ class Component extends DCLogic {
   state = { route:{page:'overview'}, filters:{}, selSystem:'open-budget', selDoc:'a041', selProposal:'ПР-027', sortKey:'plan', sortDir:-1, workTab:'works', chartView:'years', saved:[], draft:{}, fileNames:[], toast:null, modal:null };
 
   componentDidMount(){
+    if (!sessionStorage.getItem('mef.auth')) { window.location.href = './index.html'; return; }
     let saved=this.loadLS('proposals',[]); if(!Array.isArray(saved)) saved=[];
     this.setState({saved, draft:this.loadLS('draft',{}), comments:this.loadLS('comments',{})});
   }
+  onLogout(){ sessionStorage.removeItem('mef.auth'); }
   discussionKeys = { docSeed:{
     'a041':[{author:'Инспектор МЭФ',ts:'25.09.2026 14:10',text:'Проверьте расчёт часов по интеграции API — расходится с журналом задач ИТ-центра.'}]
   }, propSeed:{
@@ -1209,6 +1218,7 @@ class Component extends DCLogic {
       ],
       navActiveKey: {overview:'overview',systems:'systems',system:'systems',documents:'documents',document:'documents',proposals:'proposals','proposal-form':'proposals'}[page]||'overview',
       navSelect:(k)=>this.navSelect(k),
+      onLogout:()=>this.onLogout(),
       topTabs: [{key:'overview',label:'Обзор'},{key:'systems',label:'Системы'},{key:'proposals',label:'Предложения'},{key:'documents',label:'Документы'}].map(i=>({value:i.key,label:i.label})),
       tabsStyle:{border:'none',marginBottom:0},
       sidebarHeader: 'МЭФ · Аналитика',
