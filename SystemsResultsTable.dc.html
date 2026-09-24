@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<table style="width:100%;font-size:13px">
+<thead><tr>
+<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th>
+<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Оплачено, млн сум</th>
+<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Релизы</th>
+<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Разработка, ч</th>
+<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Поддержка, ч</th>
+<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Открытые проблемы</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ data }}" as="r" hint-placeholder-count="7">
+<tr style-hover="background:var(--bg-canvas-soft)">
+<td style="padding:14px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ r.name }}</button><span class="type-caption" style="color:var(--text-muted)">{{ r.type }}</span></td>
+<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.paid }}</td>
+<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.releases }}</td>
+<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.dev }}</td>
+<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.support }}</td>
+<td style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onIssues }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ r.issues }}</button></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>

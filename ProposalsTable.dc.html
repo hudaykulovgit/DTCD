@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Предложение</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Год</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Статус</th><th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Потребность</th></tr></thead>
+<tbody><sc-for list="{{ data }}" as="r" hint-placeholder-count="6">
+<tr style="background:{{ r.rowBg }}"><td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onSelect }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ r.title }}</button><span class="type-caption" style="color:var(--text-muted)">{{ r.id }}</span></td><td class="type-body-sm" style="padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.system }}</td><td class="type-body-sm" style="padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.year }}</td><td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ r.statusVariant }}" hint-size="auto,22px">{{ r.status }}</x-import></td><td class="type-body-sm" style="text-align:right;padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.amount }}</td></tr>
+</sc-for></tbody></table>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>
