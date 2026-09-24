@@ -1,0 +1,6 @@
+:root{
+--shadow-soft:0 4px 12px rgba(0,0,0,0.04);
+--shadow-none:none;
+--shadow-focus:0 0 0 3px rgba(23,23,23,0.12);
+--shadow-dialog:0 20px 48px rgba(0,0,0,0.16);
+}
