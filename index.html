@@ -16,1234 +16,206 @@
 <link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/shadows.css">
 <link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/styles.css">
 <script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
-<style>body{margin:0;background:var(--bg-canvas)}*{box-sizing:border-box}a{color:var(--text-link)}a:hover{text-decoration:underline}table{border-collapse:collapse}</style>
+<style>body{margin:0;background:var(--bg-canvas)}*{box-sizing:border-box}a{color:var(--text-link)}a:hover{text-decoration:underline}</style>
 </helmet>
-<div style="font-family:var(--font-sans);min-height:100vh;display:flex;flex-direction:column;background:var(--bg-canvas);color:var(--text-primary)">
+<div ref="{{ boxRef }}" style="font-family:var(--font-sans);min-height:100vh;display:flex;flex-direction:column;background:var(--bg-canvas);color:var(--text-primary);position:relative;overflow:hidden">
 
-<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 28px;background:var(--bg-surface-dark)">
+<div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(to right, var(--border-default) 1px, transparent 1px), linear-gradient(to bottom, var(--border-default) 1px, transparent 1px);background-size:24px 24px;mask-image:linear-gradient(to bottom,#000 75%,transparent)"></div>
+<canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></canvas>
+
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 28px;background:var(--bg-surface-dark)">
 <span class="type-caption-upper" style="color:var(--text-on-dark);font-family:var(--font-mono)">Министерство экономики и финансов</span>
 <span class="type-caption-upper" style="color:var(--text-on-dark-soft);font-family:var(--font-mono);letter-spacing:0.06em">Прототип · демонстрационные данные</span>
 </div>
 
-<div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 28px;border-bottom:1px solid var(--border-default)">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Tabs" tabs="{{ topTabs }}" value="{{ navActiveKey }}" on-change="{{ navSelect }}" style="{{ tabsStyle }}" hint-size="auto,44px"></x-import>
-<div style="display:flex;align-items:center;gap:8px;color:var(--text-muted)" class="type-body-sm">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Icon" name="circle-user" size="16" hint-size="16px,16px"></x-import>
-<span>{{ sidebarFooter }}</span>
-</div>
+<div style="position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+<div style="width:360px;padding:40px 36px;border:1px solid var(--border-strong);border-radius:var(--radius-lg);background:var(--bg-surface)">
+
+<div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:10px">Аналитическая платформа</div>
+<h1 class="type-title-md" style="margin:0 0 6px">Вход в систему</h1>
+<p class="type-body-sm" style="color:var(--text-secondary);margin:0 0 24px">Доступ к обзору расходов и портфеля проектов.</p>
+
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ onSso }}" hint-size="100%,40px">Войти через SSO</x-import>
+
+<div style="display:flex;align-items:center;gap:10px;margin:18px 0">
+<div style="flex:1;height:1px;background:var(--border-default)"></div>
+<span class="type-caption" style="color:var(--text-muted)">или по паролю</span>
+<div style="flex:1;height:1px;background:var(--border-default)"></div>
 </div>
 
-<div style="flex:1;display:flex;flex-direction:column;min-width:0;overflow-y:auto">
-
-<!-- OVERVIEW -->
-<sc-if value="{{ isOverview }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0">
-<h1 class="type-display-lg" style="margin:0 0 6px">Обзор портфеля</h1>
-<p class="type-body-md" style="color:var(--text-secondary);margin:0 0 24px">Расходы, результаты и вопросы для решения</p>
-<div style="display:flex;gap:0;margin-bottom:28px;flex-wrap:wrap">
-<sc-for list="{{ ov.stats }}" as="st" hint-placeholder-count="4">
-<div style="padding:0 28px;border-left:1px solid var(--border-default)" style-first-child="border:0;padding-left:0">
-<div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:8px">{{ st.label }}</div>
-<div class="type-display-md">{{ st.value }}</div>
-</div>
-</sc-for>
-</div>
+<div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Эл. почта" value="{{ email }}" on-change="{{ onEmailChange }}" hint-size="100%,44px"></x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Пароль" type="password" value="{{ password }}" on-change="{{ onPasswordChange }}" hint-size="100%,44px"></x-import>
 </div>
 
-<div style="padding:0 40px 24px;border-bottom:1px solid var(--border-default)">
-<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-<div style="display:flex;flex-direction:column;gap:6px">
-<span class="type-caption-upper" style="color:var(--text-muted)">Подразделение</span>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ ov.deptOptions }}" value="{{ ov.deptVal }}" on-change="{{ ov.onDeptChange }}" style="{{ selectWidth }}" hint-size="220px,44px"></x-import>
-</div>
-<div style="display:flex;flex-direction:column;gap:6px">
-<span class="type-caption-upper" style="color:var(--text-muted)">Тип системы</span>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ ov.typeOptions }}" value="{{ ov.typeVal }}" on-change="{{ ov.onTypeChange }}" style="{{ selectWidth }}" hint-size="200px,44px"></x-import>
-</div>
-<span class="type-caption" style="color:var(--text-muted)">Январь–сентябрь 2026 · {{ ov.count }} систем</span>
-<div style="flex:1"></div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="md" on-click="{{ ov.onExport }}" hint-size="auto,40px">Экспорт CSV</x-import>
-</div>
-</div>
-
-<div style="padding:28px 40px;border-bottom:1px solid var(--border-default);display:grid;grid-template-columns:1.6fr 1fr;gap:40px">
-<div>
-<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
-<div>
-<h2 class="type-display-sm" style="margin:0 0 4px">{{ ov.chartTitle }}</h2>
-<div style="display:flex;align-items:center;gap:10px;margin:0 0 20px">
-<p class="type-caption" style="color:var(--text-muted);margin:0">{{ ov.chartSubtitle }}</p>
-<sc-if value="{{ ov.chartGrowthText }}" hint-placeholder-val="{{ false }}">
-<span class="type-caption" style="font-weight:600;color:{{ ov.chartGrowthColor }};background:var(--bg-canvas-soft);border-radius:var(--radius-md);padding:2px 8px;white-space:nowrap">{{ ov.chartGrowthText }}</span>
-</sc-if>
-</div>
-</div>
-<div style="display:flex;gap:6px;flex-shrink:0">
-<button onClick="{{ ov.onViewYears }}" style="padding:6px 12px;border-radius:var(--radius-md);border:1px solid var(--border-strong);background:{{ ov.yearsBg }};color:{{ ov.yearsColor }};font-family:var(--font-sans);font-size:12px;cursor:pointer">По годам</button>
-<button onClick="{{ ov.onViewQuarters }}" style="padding:6px 12px;border-radius:var(--radius-md);border:1px solid var(--border-strong);background:{{ ov.quartersBg }};color:{{ ov.quartersColor }};font-family:var(--font-sans);font-size:12px;cursor:pointer">По кварталам</button>
-</div>
-</div>
-<div style="position:relative;display:flex;gap:24px;align-items:flex-end;justify-content:space-around;height:190px;padding:0 8px;border-bottom:1px solid var(--border-default)">
-<svg style="position:absolute;left:8px;right:8px;top:0;width:calc(100% - 16px);height:170px;overflow:visible;pointer-events:none" preserveAspectRatio="none" viewBox="0 0 100 100">
-<polyline points="{{ ov.chartLinePoints }}" fill="none" stroke="var(--action-primary)" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-dasharray="3 3" opacity="0.55"></polyline>
-</svg>
-<sc-for list="{{ ov.chartBars }}" as="bar" hint-placeholder-count="4">
-<div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:170px;gap:6px">
-<sc-if value="{{ bar.hasDelta }}" hint-placeholder-val="{{ false }}">
-<div class="type-caption" style="font-weight:600;color:{{ bar.deltaColor }}">{{ bar.deltaText }}</div>
-</sc-if>
-<div class="type-body-sm" style="font-weight:600;color:var(--text-primary)">{{ bar.value }}</div>
-<div style="width:56px;border-radius:4px 4px 0 0;height:{{ bar.barPx }};background:{{ bar.bg }}"></div>
-</div>
-</sc-for>
-</div>
-<div style="display:flex;gap:24px;justify-content:space-around;padding:10px 8px 0">
-<sc-for list="{{ ov.chartBars }}" as="bar2" hint-placeholder-count="4">
-<div style="width:56px;text-align:center" class="type-caption">{{ bar2.label }}</div>
-</sc-for>
-</div>
-</div>
-<div style="border-left:1px solid var(--border-default);padding-left:32px">
-<h2 class="type-display-sm" style="margin:0 0 16px">Что требует внимания</h2>
-<sc-if value="{{ ov.attentionEmpty }}" hint-placeholder-val="{{ false }}"><p class="type-body-sm" style="color:var(--text-muted)">В выбранной группе нет систем с несколькими открытыми проблемами.</p></sc-if>
-<sc-for list="{{ ov.attention }}" as="at" hint-placeholder-count="0">
-<button onClick="{{ at.onOpen }}" style="display:block;width:100%;text-align:left;background:transparent;border:none;padding:14px 0;border-bottom:1px solid var(--border-default);cursor:pointer">
-<div style="display:flex;justify-content:space-between;gap:16px"><span class="type-title-sm">{{ at.name }}</span><span class="type-caption-upper" style="color:var(--semantic-warning)">{{ at.issues }} проблемы</span></div>
-<span class="type-body-sm" style="color:var(--text-muted)">Открытые инциденты и повторные обращения. Проверить причины и план устранения.</span>
-</button>
-</sc-for>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">В демонстрации приведены условные инциденты. Это не оценка действующих систем.</p>
-</div>
-</div>
-
-<div style="padding:28px 40px 32px;border-bottom:1px solid var(--border-default)">
-<h2 class="type-display-sm" style="margin:0 0 4px">Портфель по проектам</h2>
-<div style="display:flex;align-items:center;gap:16px;margin:0 0 18px">
-<p class="type-caption" style="color:var(--text-muted);margin:0">Бюджет на 2026 год, факт расхода и потребность на 2027 год по каждому проекту</p>
-<span class="type-caption" style="display:flex;align-items:center;gap:6px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:3px;background:var(--color-sky-light);display:inline-block"></span>бюджет (полная полоса)</span>
-<span class="type-caption" style="display:flex;align-items:center;gap:6px;color:var(--text-muted)"><span style="width:10px;height:10px;border-radius:3px;background:var(--color-text-link);display:inline-block"></span>оплачено (заполнение)</span>
-</div>
-<table style="width:100%;font-size:13px">
-<thead><tr>
-<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Проект</th>
-<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Бюджет и факт, млн сум</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Потребность на 2027, млн сум</th>
-</tr></thead>
-<tbody>
-<sc-for list="{{ ov.portfolioRows }}" as="prow" hint-placeholder-count="7">
-<tr style-hover="background:var(--bg-canvas-soft)">
-<td style="padding:14px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ prow.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ prow.name }}</button><span class="type-caption" style="color:var(--text-muted)">{{ prow.type }}</span></td>
-<td style="padding:14px 12px;border-bottom:1px solid var(--border-default);min-width:260px">
-<div style="display:flex;align-items:center;gap:10px">
-<div style="position:relative;width:180px;height:16px;flex-shrink:0;background:var(--color-sky-light);border-radius:4px">
-<div style="position:absolute;left:0;top:0;height:100%;background:var(--color-text-link);border-radius:4px;width:{{ prow.paidBarPct }}"></div>
-</div>
-<span class="type-body-sm" style="font-variant-numeric:tabular-nums;white-space:nowrap"><strong>{{ prow.paid }}</strong> <span style="color:var(--text-muted)">/ {{ prow.plan }}</span></span>
-</div>
-</td>
-<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">
-<div style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
-<span>{{ prow.future }}</span>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ prow.deltaVariant }}" hint-size="auto,22px">{{ prow.deltaLabel }}</x-import>
-</div>
-</td>
-</tr>
-</sc-for>
-</tbody>
-</table>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">Потребность на 2027 год предварительная, бюджет не утверждён.</p>
-</div>
-
-<div style="padding:28px 40px 48px">
-<h2 class="type-display-sm" style="margin:0 0 18px">Системы и результаты</h2>
-<table style="width:100%;font-size:13px">
-<thead><tr>
-<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Оплачено, млн сум</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Релизы</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Разработка, ч</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Поддержка, ч</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Открытые проблемы</th>
-</tr></thead>
-<tbody>
-<sc-for list="{{ ov.rows }}" as="r" hint-placeholder-count="7">
-<tr style-hover="background:var(--bg-canvas-soft)">
-<td style="padding:14px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ r.name }}</button><span class="type-caption" style="color:var(--text-muted)">{{ r.type }}</span></td>
-<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.paid }}</td>
-<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.releases }}</td>
-<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.dev }}</td>
-<td class="type-body-sm" style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.support }}</td>
-<td style="text-align:right;padding:14px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onIssues }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ r.issues }}</button></td>
-</tr>
-</sc-for>
-</tbody>
-</table>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">Расходы на ИИ не выделены. Изменение затрат само по себе не доказывает влияние ИИ.</p>
-</div>
+<sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+<p class="type-caption" style="color:var(--semantic-error);margin:0 0 16px">{{ error }}</p>
 </sc-if>
 
-<!-- SYSTEMS LIST -->
-<sc-if value="{{ isSystems }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0">
-<h1 class="type-display-lg" style="margin:0 0 6px">Системы и расходы</h1>
-<p class="type-body-md" style="color:var(--text-secondary);margin:0 0 24px">Единый портфель программного обеспечения</p>
-</div>
-<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr)">
-<div style="padding:0 40px 40px;min-width:0;overflow-x:auto">
-<div style="display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-<div style="flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px"><span class="type-caption-upper" style="color:var(--text-muted)">Поиск</span><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Название системы" value="{{ sy.q }}" on-change="{{ sy.onQChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span class="type-caption-upper" style="color:var(--text-muted)">Заказчик</span><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ sy.deptOptions }}" value="{{ sy.deptVal }}" on-change="{{ sy.onDeptChange }}" style="{{ selectWidth }}" hint-size="220px,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span class="type-caption-upper" style="color:var(--text-muted)">Внимание</span><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ sy.riskOptions }}" value="{{ sy.riskVal }}" on-change="{{ sy.onRiskChange }}" style="{{ selectWidth }}" hint-size="200px,44px"></x-import></div>
-</div>
-<div style="display:flex;gap:10px;margin-bottom:18px">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ sy.onSortPlan }}" hint-size="auto,32px">{{ sy.sortPlanLabel }}</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ sy.onSortPaid }}" hint-size="auto,32px">{{ sy.sortPaidLabel }}</x-import>
-<div style="flex:1"></div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ sy.onExport }}" hint-size="auto,32px">Экспорт CSV</x-import>
-</div>
-<table style="width:100%">
-<thead><tr>
-<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">План 2026</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Принято</th>
-<th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Оплачено</th>
-<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Состояние</th>
-</tr></thead>
-<tbody>
-<sc-for list="{{ sy.rows }}" as="r" hint-placeholder-count="7">
-<tr style="background:{{ r.rowBg }}" style-hover="background:var(--bg-canvas-soft)">
-<td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onSelect }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ r.name }}</button><span class="type-caption" style="color:var(--text-muted)">{{ r.type }}</span></td>
-<td class="type-body-sm" style="text-align:right;padding:13px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.plan }}</td>
-<td class="type-body-sm" style="text-align:right;padding:13px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.accepted }}</td>
-<td class="type-body-sm" style="text-align:right;padding:13px 12px;border-bottom:1px solid var(--border-default);font-variant-numeric:tabular-nums">{{ r.paid }}</td>
-<td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ r.statusVariant }}" hint-size="auto,22px">{{ r.status }}</x-import></td>
-</tr>
-</sc-for>
-</tbody>
-</table>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">Найдено: {{ sy.count }} · суммы в млн сум. План — год; факт — 9 месяцев.</p>
-</div>
-<div style="border-left:1px solid var(--border-default);padding:32px 32px 40px">
-<sc-if value="{{ sy.hasSelection }}" hint-placeholder-val="{{ false }}">
-<h2 class="type-display-sm" style="margin:0 0 4px">{{ sy.sel.name }}</h2>
-<p class="type-body-sm" style="color:var(--text-muted);margin:0 0 18px">{{ sy.sel.type }}</p>
-<sc-for list="{{ sy.sel.meta }}" as="m" hint-placeholder-count="6">
-<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-default)">
-<div class="type-caption" style="color:var(--text-muted)">{{ m.label }}</div>
-<div class="type-body-sm">{{ m.value }}</div>
-</div>
-</sc-for>
-<div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ sy.sel.onOpenCard }}" hint-size="100%,40px">Открыть карточку системы</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ sy.sel.onOpenDocs }}" hint-size="100%,40px">Документы</x-import>
-</div>
-</sc-if>
-</div>
-</div>
-</sc-if>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" full-width="{{ true }}" on-click="{{ onLogin }}" hint-size="100%,40px">Войти</x-import>
 
-<!-- SYSTEM PAGE -->
-<sc-if value="{{ isSystemPage }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0">
-<div class="type-caption" style="color:var(--text-muted);margin-bottom:12px"><button onClick="{{ sp.onBack }}" style="background:transparent;border:none;padding:0;color:var(--text-muted);cursor:pointer;font:inherit;text-decoration:underline">Системы</button> / {{ sp.system.name }}</div>
-<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
-<div><h1 class="type-display-lg" style="margin:0 0 6px">{{ sp.system.name }}</h1><p class="type-body-md" style="color:var(--text-secondary);margin:0">{{ sp.tabTitle }}</p></div>
-<sc-if value="{{ isSystemBudget }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;gap:0">
-<sc-for list="{{ sp.budget.stats }}" as="bs" hint-placeholder-count="4">
-<div style="padding:0 18px;border-left:1px solid var(--border-default)"><div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:6px">{{ bs.label }}</div><div class="type-title-md">{{ bs.value }}</div></div>
-</sc-for>
+<div style="text-align:center;margin-top:16px">
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="tertiary" hint-size="auto,20px">Забыли пароль?</x-import>
 </div>
-</sc-if>
-</div>
-<div style="display:flex;gap:28px;margin-top:22px;border-bottom:1px solid var(--border-default)">
-<sc-for list="{{ sp.tabs }}" as="t" hint-placeholder-count="4">
-<button onClick="{{ t.onClick }}" style="background:transparent;border:none;cursor:pointer;padding:10px 2px 13px;margin-right:4px;color:{{ t.color }};font-weight:{{ t.weight }};border-bottom:{{ t.border }};font-family:var(--font-sans);font-size:14px">{{ t.label }}</button>
-</sc-for>
+
+<p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin:20px 0 0">Демонстрационный режим: вход не проверяется, данные не передаются.</p>
 </div>
 </div>
 
-<sc-if value="{{ isSystemGeneral }}" hint-placeholder-val="{{ false }}">
-<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr)">
-<div style="padding:28px 40px;min-width:0;overflow-x:auto">
-<h2 class="type-display-sm" style="margin:0 0 14px">Основная информация</h2>
-<sc-for list="{{ sp.general.meta }}" as="m" hint-placeholder-count="6">
-<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:14px;padding:10px 0;border-bottom:1px solid var(--border-default)">
-<div class="type-caption" style="color:var(--text-muted)">{{ m.label }}</div>
-<sc-if value="{{ m.isBadge }}" hint-placeholder-val="{{ false }}"><div><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ m.badgeVariant }}" hint-size="auto,22px">{{ m.value }}</x-import></div></sc-if>
-<sc-if value="{{ m.isText }}" hint-placeholder-val="{{ true }}"><div class="type-body-sm">{{ m.value }}</div></sc-if>
-</div>
-</sc-for>
-<h2 class="type-display-sm" style="margin:26px 0 14px">Модули системы</h2>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Модуль</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Назначение</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Состояние</th></tr></thead>
-<tbody><sc-for list="{{ sp.general.modules }}" as="mo" hint-placeholder-count="3">
-<tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ mo.name }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ mo.purpose }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="warning" hint-size="auto,22px">Ожидается подтверждение</x-import></td></tr>
-</sc-for></tbody></table>
-<h3 class="type-title-sm" style="margin:22px 0 12px">Связанные инициативы</h3>
-<sc-if value="{{ sp.general.hasProposals }}" hint-placeholder-val="{{ false }}">
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Предложение</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Плановый год</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
-<tbody><sc-for list="{{ sp.general.proposals }}" as="p" hint-placeholder-count="2">
-<tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><button onClick="{{ p.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ p.title }}</button></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ p.year }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ p.statusVariant }}" hint-size="auto,22px">{{ p.status }}</x-import></td></tr>
-</sc-for></tbody></table>
-</sc-if>
-</div>
-<div style="border-left:1px solid var(--border-default);padding:28px 32px">
-<h2 class="type-display-sm" style="margin:0 0 10px">Источники и актуальность</h2>
-<p class="type-caption" style="color:var(--text-muted);margin:0 0 16px">Паспорт, перечень модулей и ответственные требуют подтверждения перед вводом реальных данных.</p>
-<sc-for list="{{ sp.general.sourceMeta }}" as="sm" hint-placeholder-count="3">
-<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)"><div class="type-caption" style="color:var(--text-muted)">{{ sm.label }}</div><div class="type-body-sm">{{ sm.value }}</div></div>
-</sc-for>
-<h3 class="type-title-sm" style="margin:20px 0 10px">Что необходимо уточнить</h3>
-<ul style="margin:0 0 18px;padding-left:18px;line-height:2" class="type-body-sm"><li>Ответственный владелец системы</li><li>Актуальная версия паспорта</li><li>Подписанные документы приёмки</li><li>Документ ввода в эксплуатацию</li></ul>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ sp.general.onOpenDocs }}" hint-size="100%,40px">Перейти к документам</x-import>
-</div>
-</div>
-</sc-if>
-
-<sc-if value="{{ isSystemWork }}" hint-placeholder-val="{{ false }}">
-<div style="padding:24px 40px;border-bottom:1px solid var(--border-default);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
-<div style="display:flex;gap:0">
-<sc-for list="{{ sp.work.stats }}" as="ws" hint-placeholder-count="4">
-<div style="padding:0 22px;border-left:1px solid var(--border-default)"><div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:6px">{{ ws.label }}</div><div class="type-display-sm">{{ ws.value }}</div></div>
-</sc-for>
-</div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ sp.work.onExport }}" hint-size="auto,32px">Экспорт работ CSV</x-import>
-</div>
-<div style="padding:24px 40px 48px">
-<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-<sc-for list="{{ sp.work.chips }}" as="c" hint-placeholder-count="4">
-<button onClick="{{ c.onClick }}" style="padding:8px 14px;border-radius:var(--radius-md);border:1px solid var(--border-strong);background:{{ c.bg }};color:{{ c.color }};font-family:var(--font-sans);font-size:13px;cursor:pointer">{{ c.label }}</button>
-</sc-for>
-</div>
-
-<sc-if value="{{ isWorkWorks }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-<div style="flex:1;min-width:220px"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Поиск работы или ID" value="{{ sp.work.q }}" on-change="{{ sp.work.onQChange }}" hint-size="100%,44px"></x-import></div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ sp.work.typeOptions }}" value="{{ sp.work.typeVal }}" on-change="{{ sp.work.onTypeChange }}" style="{{ selectWidth }}" hint-size="180px,44px"></x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ sp.work.statusOptions }}" value="{{ sp.work.statusVal }}" on-change="{{ sp.work.onStatusChange }}" style="{{ selectWidth }}" hint-size="180px,44px"></x-import>
-</div>
-<table style="width:100%"><thead><tr>
-<th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Работа</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Тип</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Срок</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">План, ч</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Факт, ч</th>
-</tr></thead><tbody><sc-for list="{{ sp.work.rows }}" as="w" hint-placeholder-count="6">
-<tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><div class="type-body-sm">{{ w.name }}</div><div class="type-caption" style="color:var(--text-muted)">{{ w.id }}</div></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ w.type }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ w.statusVariant }}" hint-size="auto,22px">{{ w.status }}</x-import></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ w.end }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ w.plan }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ w.hours }}</td></tr>
-</sc-for></tbody></table>
-<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><span class="type-caption-upper" style="background:var(--bg-surface-strong);padding:6px 10px;border-radius:var(--radius-sm)">Завершённых работ: {{ sp.work.doneCount }}</span><span class="type-caption-upper" style="background:var(--bg-surface-strong);padding:6px 10px;border-radius:var(--radius-sm)">Среднее: {{ sp.work.avg }} ч</span><span class="type-caption-upper" style="background:var(--bg-surface-strong);padding:6px 10px;border-radius:var(--radius-sm)">Медиана: {{ sp.work.median }} ч</span></div>
-</sc-if>
-
-<sc-if value="{{ isWorkPeople }}" hint-placeholder-val="{{ false }}">
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Участник</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Роль</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Факт, ч</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Участие</th></tr></thead>
-<tbody><sc-for list="{{ sp.work.people }}" as="pe" hint-placeholder-count="3"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ pe.id }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ pe.role }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ pe.hours }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ pe.part }}</td></tr></sc-for></tbody></table>
-</sc-if>
-
-<sc-if value="{{ isWorkReleases }}" hint-placeholder-val="{{ false }}">
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Релиз</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Дата</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Изменения</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Состояние</th></tr></thead>
-<tbody><sc-for list="{{ sp.work.releases }}" as="re" hint-placeholder-count="3"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ re.v }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ re.date }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ re.notes }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="success" hint-size="auto,22px">Выпущен</x-import></td></tr></sc-for></tbody></table>
-</sc-if>
-
-<sc-if value="{{ isWorkIssues }}" hint-placeholder-val="{{ false }}">
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Проблема</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Серьёзность</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Обращение</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Повторений</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
-<tbody><sc-for list="{{ sp.work.issues }}" as="is" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ is.name }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ is.sevVariant }}" hint-size="auto,22px">{{ is.severity }}</x-import></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ is.date }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ is.repeat }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="warning" hint-size="auto,22px">В работе</x-import></td></tr></sc-for></tbody></table>
-</sc-if>
-
-<div style="margin-top:20px;padding:12px 14px;background:var(--bg-surface-strong);border-radius:var(--radius-md)" class="type-caption">Данные доступны для просмотра. Назначение исполнителей, обсуждения и изменение задач выполняются в системе ИТ-центра. Завершение задачи не означает финансовую приёмку.</div>
-</div>
-</sc-if>
-
-<sc-if value="{{ isSystemBudget }}" hint-placeholder-val="{{ false }}">
-<div style="padding:28px 40px;display:grid;grid-template-columns:1.5fr 1fr;gap:40px;border-bottom:1px solid var(--border-default)">
-<div>
-<h2 class="type-display-sm" style="margin:0 0 14px">Расходы и потребность по годам</h2>
-<div style="display:flex;gap:24px;align-items:flex-end;justify-content:space-around;height:160px;padding:0 8px;border-bottom:1px solid var(--border-default)">
-<sc-for list="{{ sp.budget.chartBars }}" as="bb" hint-placeholder-count="4">
-<div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:140px;gap:8px"><div class="type-body-sm" style="font-weight:600">{{ bb.value }}</div><div style="width:48px;border-radius:4px 4px 0 0;height:{{ bb.barPx }};background:{{ bb.bg }}"></div></div>
-</sc-for>
-</div>
-<div style="display:flex;gap:24px;justify-content:space-around;padding:10px 8px 0"><sc-for list="{{ sp.budget.chartBars }}" as="bb2" hint-placeholder-count="4"><div style="width:48px;text-align:center" class="type-caption">{{ bb2.label }}</div></sc-for></div>
-</div>
-<div style="border-left:1px solid var(--border-default);padding-left:32px">
-<h2 class="type-display-sm" style="margin:0 0 14px">Исполнение на 30 сентября</h2>
-<sc-for list="{{ sp.budget.execMeta }}" as="em" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)"><div class="type-caption" style="color:var(--text-muted)">{{ em.label }}</div><div class="type-body-sm">{{ em.value }}</div></div></sc-for>
-<p class="type-caption" style="color:var(--text-muted);margin-top:12px">План, договоры, принятые работы и оплаты — разные показатели. Они не суммируются в общие расходы.</p>
-</div>
-</div>
-<div style="padding:28px 40px 48px">
-<h2 class="type-display-sm" style="margin:0 0 14px">Договоры системы</h2>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Договор</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Период</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма, млн сум</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
-<tbody><sc-for list="{{ sp.budget.contracts }}" as="ct" hint-placeholder-count="1"><tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><button onClick="{{ ct.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ ct.name }}</button></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ct.period }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ct.amount }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ ct.statusVariant }}" hint-size="auto,22px">{{ ct.status }}</x-import></td></tr></sc-for></tbody></table>
-<sc-if value="{{ sp.budget.hasLedger }}" hint-placeholder-val="{{ false }}">
-<h3 class="type-title-sm" style="margin:24px 0 12px">Движение по договору Д-026</h3>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Документ</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Дата</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Оплачено</th></tr></thead>
-<tbody><sc-for list="{{ sp.budget.ledger }}" as="lg" hint-placeholder-count="5"><tr><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><sc-if value="{{ lg.clickable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lg.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ lg.label }}</button></sc-if><sc-if value="{{ lg.notClickable }}" hint-placeholder-val="{{ true }}"><span class="type-body-sm">{{ lg.label }}</span></sc-if></td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.date }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.accepted }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg.paid }}</td></tr></sc-for></tbody></table>
-</sc-if>
-<sc-if value="{{ sp.budget.noLedger }}" hint-placeholder-val="{{ true }}"><p class="type-caption" style="color:var(--text-muted);margin-top:16px">Детализация платежей в демонстрации доступна для Open-budget.</p></sc-if>
-</div>
-</sc-if>
-
-<sc-if value="{{ isSystemDocuments }}" hint-placeholder-val="{{ false }}">
-<dc-import name="DocRegister" data="{{ dc }}" hint-size="100%,600px"></dc-import>
-</sc-if>
-</sc-if>
-
-<!-- DOCUMENTS (registry + system-scoped share the same block) -->
-<sc-if value="{{ isDocuments }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0"><h1 class="type-display-lg" style="margin:0 0 6px">Документы</h1><p class="type-body-md" style="color:var(--text-secondary);margin:0 0 20px">Договоры, акты, технические материалы и сверки</p></div>
-<dc-import name="DocRegister" data="{{ dc }}" hint-size="100%,600px"></dc-import>
-</sc-if>
-
-<!-- DOCUMENT DETAIL -->
-<sc-if value="{{ isDocument }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0">
-<div class="type-caption" style="color:var(--text-muted);margin-bottom:12px"><button onClick="{{ dd.onDocs }}" style="background:transparent;border:none;padding:0;color:var(--text-muted);cursor:pointer;font:inherit;text-decoration:underline">Документы</button> / <button onClick="{{ dd.onSystemDocs }}" style="background:transparent;border:none;padding:0;color:var(--text-muted);cursor:pointer;font:inherit;text-decoration:underline">{{ dd.systemName }}</button> / {{ dd.crumbLabel }}</div>
-<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:20px">
-<div><h1 class="type-display-lg" style="margin:0 0 6px">{{ dd.name }}</h1><p class="type-body-md" style="color:var(--text-secondary);margin:0">{{ dd.systemName }} · {{ dd.period }}</p></div>
-<div style="display:flex;gap:10px">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ dd.onPreview }}" hint-size="auto,40px">Просмотреть документ</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ dd.onDownload }}" hint-size="auto,40px">Скачать PDF</x-import>
-</div>
-</div>
-</div>
-<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr)">
-<div style="padding:0 40px 48px;min-width:0;overflow-x:auto">
-
-<sc-if value="{{ isDocContract }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;gap:0;margin-bottom:24px"><sc-for list="{{ dd.contract.stats }}" as="cs" hint-placeholder-count="4"><div style="padding:0 20px;border-left:1px solid var(--border-default)"><div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:6px">{{ cs.label }}</div><div class="type-title-md">{{ cs.value }}</div></div></sc-for></div>
-<h2 class="type-display-sm" style="margin:0 0 14px">Предмет и распределение</h2>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Система</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Год</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Вид работ</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th></tr></thead>
-<tbody><sc-for list="{{ dd.contract.subject }}" as="su" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.system }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.year }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.type }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ su.amount }}</td></tr></sc-for></tbody></table>
-<h3 class="type-title-sm" style="margin:22px 0 12px">План исполнения</h3>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Квартал</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">План</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Срок</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Приёмка</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th></tr></thead>
-<tbody><sc-for list="{{ dd.contract.quarters }}" as="q" hint-placeholder-count="4"><tr><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.q }} квартал</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.plan }}</td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.due }}</td><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ q.statusVariant }}" hint-size="auto,22px">{{ q.status }}</x-import></td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ q.accepted }}</td></tr></sc-for></tbody></table>
-<h3 class="type-title-sm" style="margin:22px 0 12px">Связанные акты</h3>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Акт</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Период</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Статус</th></tr></thead>
-<tbody><sc-for list="{{ dd.contract.acts }}" as="ac" hint-placeholder-count="3"><tr><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><button onClick="{{ ac.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ ac.number }}</button></td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ac.period }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ac.amount }}</td><td style="padding:12px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ ac.statusVariant }}" hint-size="auto,22px">{{ ac.status }}</x-import></td></tr></sc-for></tbody></table>
-</sc-if>
-
-<sc-if value="{{ isDocAct }}" hint-placeholder-val="{{ false }}">
-<h2 class="type-display-sm" style="margin:0 0 14px">Состав выполненных работ</h2>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Работа</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Кол-во</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Ед.</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Цена</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Сумма</th></tr></thead>
-<tbody><sc-for list="{{ dd.act.rows }}" as="ar" hint-placeholder-count="3"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.name }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.qty }}</td><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.unit }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.price }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ ar.sum }}</td></tr></sc-for>
-<tr><td colspan="4" style="padding:12px 10px;font-weight:600" class="type-body-sm">Итого</td><td style="text-align:right;padding:12px 10px;font-weight:600" class="type-body-sm">{{ dd.act.total }}</td></tr>
-</tbody></table>
-<p class="type-caption" style="color:var(--text-muted);margin:16px 0">Все ставки условные, договорные. Фактические часы из системы управления задачами требуют сверки с составом акта.</p>
-<button onClick="{{ dd.act.onWork }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">Сопоставить с работами ИТ-центра</button>
-<h3 class="type-title-sm" style="margin:22px 0 10px">Связанный договор</h3>
-<button onClick="{{ dd.act.onContract }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ dd.act.contractName }}</button>
-</sc-if>
-
-<sc-if value="{{ isDocReconciliation }}" hint-placeholder-val="{{ false }}">
-<div style="display:flex;gap:0;margin-bottom:16px"><sc-for list="{{ dd.recon.stats }}" as="rs" hint-placeholder-count="4"><div style="padding:0 20px;border-left:1px solid var(--border-default)"><div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:6px">{{ rs.label }}</div><div class="type-title-md">{{ rs.value }}</div></div></sc-for></div>
-<p class="type-caption" style="color:var(--text-muted);margin:0 0 20px">Долг заказчика = начальный долг + принятые работы − оплаты.</p>
-<h2 class="type-display-sm" style="margin:0 0 14px">Сопоставление сторон</h2>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Показатель</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Министерство</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">ИТ-центр</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Разница</th></tr></thead>
-<tbody><sc-for list="{{ dd.recon.rows }}" as="rr" hint-placeholder-count="4"><tr><td class="type-body-sm" style="padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.label }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.a }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.b }}</td><td class="type-body-sm" style="text-align:right;padding:12px 10px;border-bottom:1px solid var(--border-default)">{{ rr.diff }}</td></tr></sc-for></tbody></table>
-<h3 class="type-title-sm" style="margin:22px 0 12px">Хронология документов</h3>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Документ</th><th class="type-caption-upper" style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Дата</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Принято</th><th class="type-caption-upper" style="text-align:right;padding:9px 10px;border-bottom:1px solid var(--border-strong)">Оплачено</th></tr></thead>
-<tbody><sc-for list="{{ dd.recon.ledger }}" as="lg2" hint-placeholder-count="5"><tr><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><sc-if value="{{ lg2.clickable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ lg2.onOpen }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ lg2.label }}</button></sc-if><sc-if value="{{ lg2.notClickable }}" hint-placeholder-val="{{ true }}"><span class="type-body-sm">{{ lg2.label }}</span></sc-if></td><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.date }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.accepted }}</td><td class="type-body-sm" style="text-align:right;padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ lg2.paid }}</td></tr></sc-for></tbody></table>
-</sc-if>
-
-<sc-if value="{{ isDocGeneric }}" hint-placeholder-val="{{ true }}">
-<div style="max-width:720px;padding:32px;border:1px solid var(--border-default);border-radius:var(--radius-lg)">
-<div class="type-caption-upper" style="text-align:center;color:var(--semantic-error);margin-bottom:16px;letter-spacing:0.1em">Демонстрационный образец · не официальный документ</div>
-<h2 class="type-display-sm" style="text-align:center;margin:0 0 6px">{{ dd.name }}</h2>
-<p class="type-caption" style="text-align:center;color:var(--text-muted);margin:0 0 20px">{{ dd.systemName }} · {{ dd.date }} · версия {{ dd.version }}</p>
-<sc-for list="{{ dd.generic.meta }}" as="gm" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)"><div class="type-caption" style="color:var(--text-muted)">{{ gm.label }}</div><div class="type-body-sm">{{ gm.value }}</div></div></sc-for>
-<p class="type-body-sm" style="margin-top:18px">Этот образец иллюстрирует просмотр связанного документа в аналитической платформе. В рабочей версии здесь отображается оригинал из доверенного источника.</p>
-<sc-if value="{{ dd.generic.isTz }}" hint-placeholder-val="{{ false }}"><h3 class="type-title-sm">Состав требований</h3><ol class="type-body-sm" style="padding-left:18px;line-height:1.9"><li>Дополнительные разрезы отчётности.</li><li>Выгрузка данных в согласованном формате.</li><li>Проверка полномочий пользователей.</li><li>Приёмочные испытания и документация.</li></ol></sc-if>
-</div>
-</sc-if>
-</div>
-
-<div style="border-left:1px solid var(--border-default);padding:0 32px 48px">
-<x-import name="DocInspector" hint-size="100%,400px"></x-import>
-<div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border-default)">
-<h3 class="type-title-sm" style="margin:0 0 12px">Обсуждение</h3>
-<sc-if value="{{ dd.discussion.empty }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--text-muted);margin:0 0 14px">Пока нет комментариев.</p></sc-if>
-<sc-for list="{{ dd.discussion.items }}" as="cm" hint-placeholder-count="2">
-<div style="padding:10px 0;border-bottom:1px solid var(--border-default)">
-<div style="display:flex;justify-content:space-between;gap:10px"><span class="type-body-sm" style="font-weight:600">{{ cm.author }}</span><span class="type-caption" style="color:var(--text-muted)">{{ cm.ts }}</span></div>
-<p class="type-body-sm" style="margin:4px 0 0;color:var(--text-secondary)">{{ cm.text }}</p>
-</div>
-</sc-for>
-<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
-<textarea placeholder="Добавить комментарий..." style="min-height:64px;resize:vertical;font-family:var(--font-sans);font-size:13px;padding:10px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--text-primary)" value="{{ dd.discussion.draft }}" onChange="{{ dd.discussion.onDraftChange }}"></textarea>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ dd.discussion.onAdd }}" hint-size="auto,32px">Добавить комментарий</x-import>
-</div>
-<p class="type-caption" style="color:var(--text-muted);margin-top:10px">Комментарии сохраняются только в этом браузере (демонстрация).</p>
-</div>
-</div>
-</div>
-</sc-if>
-
-<!-- PROPOSALS LIST -->
-<sc-if value="{{ isProposals }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
-<div><h1 class="type-display-lg" style="margin:0 0 6px">Предложения и планы</h1><p class="type-body-md" style="color:var(--text-secondary);margin:0 0 24px">Ежегодный сбор потребностей подразделений</p></div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ pr.onNew }}" hint-size="auto,40px">Новое предложение</x-import>
-</div>
-<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr)">
-<div style="padding:0 40px 48px;min-width:0;overflow-x:auto">
-<div style="display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:16px">
-<div style="flex:1;min-width:220px"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Номер, система или инициатива" value="{{ pr.q }}" on-change="{{ pr.onQChange }}" hint-size="100%,44px"></x-import></div>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pr.yearOptions }}" value="{{ pr.yearVal }}" on-change="{{ pr.onYearChange }}" style="{{ selectWidth }}" hint-size="160px,44px"></x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pr.deptOptions }}" value="{{ pr.deptVal }}" on-change="{{ pr.onDeptChange }}" style="{{ selectWidth }}" hint-size="220px,44px"></x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pr.statusOptions }}" value="{{ pr.statusVal }}" on-change="{{ pr.onStatusChange }}" style="{{ selectWidth }}" hint-size="180px,44px"></x-import>
-</div>
-<div style="display:flex;gap:0;margin-bottom:20px"><sc-for list="{{ pr.stats }}" as="ps" hint-placeholder-count="3"><div style="padding:0 20px;border-left:1px solid var(--border-default)"><div class="type-caption-upper" style="color:var(--text-muted);margin-bottom:6px">{{ ps.label }}</div><div class="type-title-md">{{ ps.value }}</div></div></sc-for></div>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Предложение</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Год</th><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Статус</th><th class="type-caption-upper" style="text-align:right;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Потребность</th></tr></thead>
-<tbody><sc-for list="{{ pr.rows }}" as="r" hint-placeholder-count="6">
-<tr style="background:{{ r.rowBg }}"><td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onSelect }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left;display:block">{{ r.title }}</button><span class="type-caption" style="color:var(--text-muted)">{{ r.id }}</span></td><td class="type-body-sm" style="padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.system }}</td><td class="type-body-sm" style="padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.year }}</td><td style="padding:13px 12px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ r.statusVariant }}" hint-size="auto,22px">{{ r.status }}</x-import></td><td class="type-body-sm" style="text-align:right;padding:13px 12px;border-bottom:1px solid var(--border-default)">{{ r.amount }}</td></tr>
-</sc-for></tbody></table>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">Потребность предварительная, бюджет не утверждён. Приём предложений на 2027 год: до 15 июля 2026.</p>
-</div>
-<div style="border-left:1px solid var(--border-default);padding:32px 32px 48px">
-<sc-if value="{{ pr.hasSelection }}" hint-placeholder-val="{{ false }}">
-<h2 class="type-display-sm" style="margin:0 0 4px">{{ pr.sel.id }}</h2>
-<p class="type-body-sm" style="color:var(--text-muted);margin:0 0 16px">{{ pr.sel.title }}</p>
-<sc-for list="{{ pr.sel.meta }}" as="m" hint-placeholder-count="6">
-<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)">
-<div class="type-caption" style="color:var(--text-muted)">{{ m.label }}</div>
-<sc-if value="{{ m.isBadge }}" hint-placeholder-val="{{ false }}"><div><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ m.badgeVariant }}" hint-size="auto,22px">{{ m.value }}</x-import></div></sc-if>
-<sc-if value="{{ m.isText }}" hint-placeholder-val="{{ true }}"><div class="type-body-sm">{{ m.value }}</div></sc-if>
-</div>
-</sc-for>
-<h3 class="type-title-sm" style="margin:18px 0 8px">Потребность и результат</h3>
-<p class="type-body-sm" style="margin:0 0 6px">{{ pr.sel.problem }}</p>
-<p class="type-body-sm" style="color:var(--text-muted);margin:0 0 16px">{{ pr.sel.result }}</p>
-<div style="display:flex;flex-direction:column;gap:10px">
-<sc-if value="{{ pr.sel.isDraft }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ pr.sel.onContinue }}" hint-size="100%,40px">Продолжить черновик</x-import></sc-if>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ pr.sel.onSource }}" hint-size="100%,40px">Обсуждение в системе ИТ-центра</x-import>
-<sc-if value="{{ pr.sel.isLocal }}" hint-placeholder-val="{{ false }}">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="tertiary" on-click="{{ pr.sel.onRemove }}" hint-size="auto,20px">Удалить локальную запись</x-import>
-<p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin-top:6px">Это локальное предложение. Отправка в прототипе не уведомляет подразделения и не создаёт запись во внешней системе.</p>
-</sc-if>
-</div>
-<div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border-default)">
-<h3 class="type-title-sm" style="margin:0 0 12px">Обсуждение</h3>
-<sc-if value="{{ pr.sel.discussion.empty }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--text-muted);margin:0 0 14px">Пока нет комментариев.</p></sc-if>
-<sc-for list="{{ pr.sel.discussion.items }}" as="cm" hint-placeholder-count="2">
-<div style="padding:10px 0;border-bottom:1px solid var(--border-default)">
-<div style="display:flex;justify-content:space-between;gap:10px"><span class="type-body-sm" style="font-weight:600">{{ cm.author }}</span><span class="type-caption" style="color:var(--text-muted)">{{ cm.ts }}</span></div>
-<p class="type-body-sm" style="margin:4px 0 0;color:var(--text-secondary)">{{ cm.text }}</p>
-</div>
-</sc-for>
-<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
-<textarea placeholder="Добавить комментарий..." style="min-height:64px;resize:vertical;font-family:var(--font-sans);font-size:13px;padding:10px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--text-primary)" value="{{ pr.sel.discussion.draft }}" onChange="{{ pr.sel.discussion.onDraftChange }}"></textarea>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" size="sm" on-click="{{ pr.sel.discussion.onAdd }}" hint-size="auto,32px">Добавить комментарий</x-import>
-</div>
-<p class="type-caption" style="color:var(--text-muted);margin-top:10px">Комментарии сохраняются только в этом браузере (демонстрация).</p>
-</div>
-</sc-if>
-</div>
-</div>
-</sc-if>
-
-<!-- PROPOSAL FORM -->
-<sc-if value="{{ isProposalForm }}" hint-placeholder-val="{{ false }}">
-<div style="padding:32px 40px 0"><h1 class="type-display-lg" style="margin:0 0 6px">{{ pf.title }}</h1><p class="type-body-md" style="color:var(--text-secondary);margin:0 0 24px">План развития и поддержки программного обеспечения</p></div>
-<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr)">
-<div style="padding:0 40px 48px;min-width:0;overflow-x:auto">
-
-<div style="padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--border-default)">
-<h2 class="type-display-sm" style="margin:0 0 18px">1. Основные сведения</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 22px">
-<div style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Наименование предложения <span style="color:var(--semantic-error)">*</span></label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Например, расширение отчётности Open-budget" value="{{ pf.title_ }}" on-change="{{ pf.onTitleChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Система *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pf.systemOptions }}" value="{{ pf.systemVal }}" on-change="{{ pf.onSystemChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Вид работ *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pf.typeOptions }}" value="{{ pf.typeVal }}" on-change="{{ pf.onTypeChange }}" hint-size="100%,44px"></x-import></div>
-<sc-if value="{{ pf.isNewSystem }}" hint-placeholder-val="{{ false }}"><div style="grid-column:1/-1;display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Название новой системы *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" value="{{ pf.newSystemVal }}" on-change="{{ pf.onNewSystemChange }}" hint-size="100%,44px"></x-import></div></sc-if>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Заказчик *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pf.deptOptions }}" value="{{ pf.deptVal }}" on-change="{{ pf.onDeptChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Ответственный *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="ФИО или должность" value="{{ pf.personVal }}" on-change="{{ pf.onPersonChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Плановый год *</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ pf.yearOptions }}" value="{{ pf.yearVal }}" on-change="{{ pf.onYearChange }}" hint-size="100%,44px"></x-import></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Целевой срок</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" type="date" value="{{ pf.deadlineVal }}" on-change="{{ pf.onDeadlineChange }}" hint-size="100%,44px"></x-import></div>
-</div>
-</div>
-
-<div style="padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--border-default)">
-<h2 class="type-display-sm" style="margin:0 0 18px">2. Потребность и результат</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 22px">
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Проблема *</label><textarea placeholder="Что сейчас не работает или требует улучшения?" style="min-height:100px;resize:vertical;font-family:var(--font-sans);font-size:14px;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--text-primary)" value="{{ pf.problemVal }}" onChange="{{ pf.onProblemChange }}"></textarea></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Ожидаемый результат *</label><textarea placeholder="Какое измеримое изменение ожидается?" style="min-height:100px;resize:vertical;font-family:var(--font-sans);font-size:14px;padding:12px 14px;border:1px solid var(--border-strong);border-radius:var(--radius-md);color:var(--text-primary)" value="{{ pf.resultVal }}" onChange="{{ pf.onResultChange }}"></textarea></div>
-<div style="display:flex;flex-direction:column;gap:6px"><label class="type-body-sm">Предварительная потребность, млн сум</label><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" type="number" placeholder="Можно оставить пустым" value="{{ pf.amountVal }}" on-change="{{ pf.onAmountChange }}" hint-size="100%,44px"></x-import></div>
-</div>
-</div>
-
-<div style="padding-bottom:24px">
-<h2 class="type-display-sm" style="margin:0 0 18px">3. Материалы</h2>
-<label class="type-body-sm">Технические требования и обоснование</label>
-<input type="file" multiple onChange="{{ pf.onFiles }}" style="display:block;width:100%;margin-top:10px;font-family:var(--font-sans);font-size:13px">
-<p class="type-caption" style="color:var(--text-muted);margin-top:10px">{{ pf.fileNamesLabel }}</p>
-<p class="type-caption" style="color:var(--text-muted)">В прототипе сохраняются только названия файлов. Содержимое не загружается и не сохраняется.</p>
-</div>
-
-<div style="display:flex;gap:10px;justify-content:flex-end">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ pf.onCancel }}" hint-size="auto,40px">Отмена</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ pf.onSaveDraft }}" hint-size="auto,40px">Сохранить черновик</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ pf.onSubmit }}" hint-size="auto,40px">Отправить на рассмотрение</x-import>
-</div>
-</div>
-<div style="border-left:1px solid var(--border-default);padding:0 32px 48px">
-<h2 class="type-display-sm" style="margin:0 0 10px">До отправки</h2>
-<p class="type-body-sm" style="margin:0 0 14px">Заполните наименование, ответственного, проблему и ожидаемый результат.</p>
-<p class="type-caption" style="color:var(--text-muted);margin:0 0 16px">Стоимость и трудоёмкость уточняются после оценки ИТ-центра.</p>
-<p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin:0 0 18px">Демонстрационный режим: предложение останется в этом браузере. Данные не передаются в Министерство или ИТ-центр.</p>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" full-width="{{ true }}" on-click="{{ pf.onBackup }}" hint-size="100%,40px">Скачать локальные предложения</x-import>
-</div>
-</div>
-</sc-if>
-
-<div style="display:flex;justify-content:space-between;gap:20px;padding:14px 40px;border-top:1px solid var(--border-default);margin-top:auto">
+<div style="position:relative;display:flex;justify-content:space-between;gap:20px;padding:14px 40px;border-top:1px solid var(--border-default)">
 <span class="type-caption" style="color:var(--text-muted)">Аналитическая платформа · API не подключён</span>
-<div style="display:flex;gap:20px;align-items:center"><span class="type-caption" style="color:var(--text-muted)">Демонстрационный срез: 30 сентября 2026</span><button onClick="{{ openHelp }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:12px">Источники и определения</button></div>
+<span class="type-caption" style="color:var(--text-muted)">Демонстрационный срез: 30 сентября 2026</span>
 </div>
 </div>
-
-<sc-if value="{{ toastOpen }}" hint-placeholder-val="{{ false }}">
-<div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:50">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Toast" title="{{ toastText }}" hint-size="320px,60px"></x-import>
-</div>
-</sc-if>
-
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Dialog" open="{{ modalOpen }}" on-close="{{ closeModal }}" title="{{ modalTitle }}" width="640px" hint-size="640px,300px">
-<sc-if value="{{ isModalPreview }}" hint-placeholder-val="{{ false }}">
-<div class="type-caption-upper" style="text-align:center;color:var(--semantic-error);margin-bottom:14px">Демонстрационный образец · не официальный документ</div>
-<sc-if value="{{ modal.preview.hasAct }}" hint-placeholder-val="{{ false }}">
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Работа</th><th class="type-caption-upper" style="text-align:right;padding:8px;border-bottom:1px solid var(--border-strong)">Сумма</th></tr></thead>
-<tbody><sc-for list="{{ modal.preview.actRows }}" as="pa" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">{{ pa.name }}</td><td class="type-body-sm" style="text-align:right;padding:8px;border-bottom:1px solid var(--border-default)">{{ pa.sum }}</td></tr></sc-for></tbody></table>
-</sc-if>
-<sc-if value="{{ modal.preview.noAct }}" hint-placeholder-val="{{ true }}">
-<sc-for list="{{ modal.preview.meta }}" as="pm" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--border-default)"><div class="type-caption" style="color:var(--text-muted)">{{ pm.label }}</div><div class="type-body-sm">{{ pm.value }}</div></div></sc-for>
-<sc-for list="{{ modal.preview.sections }}" as="sec" hint-placeholder-count="0">
-<h3 class="type-title-sm" style="margin:18px 0 8px">{{ sec.title }}</h3>
-<ol class="type-body-sm" style="padding-left:18px;line-height:1.9;margin:0">
-<sc-for list="{{ sec.items }}" as="it" hint-placeholder-count="3"><li>{{ it }}</li></sc-for>
-</ol>
-</sc-for>
-</sc-if>
-<div style="display:flex;gap:10px;margin-top:20px">
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ modal.preview.onDownload }}" hint-size="auto,40px">Скачать PDF</x-import>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ modal.preview.onPrint }}" hint-size="auto,40px">Печать</x-import>
-</div>
-</sc-if>
-<sc-if value="{{ isModalVersions }}" hint-placeholder-val="{{ false }}">
-<p class="type-body-sm" style="margin:0 0 14px">{{ modal.versions.name }}</p>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Версия</th><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Содержание</th><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Состояние</th></tr></thead>
-<tbody><sc-for list="{{ modal.versions.rows }}" as="v" hint-placeholder-count="2"><tr><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">v{{ v.v }}</td><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">{{ v.label }}</td><td style="padding:8px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ v.variant }}" hint-size="auto,22px">{{ v.status }}</x-import></td></tr></sc-for></tbody></table>
-<p class="type-caption" style="color:var(--text-muted);margin-top:14px">Условная история. Оригиналы и журнал изменений поступят из источника.</p>
-</sc-if>
-<sc-if value="{{ isModalSource }}" hint-placeholder-val="{{ false }}">
-<p class="type-body-sm">В рабочей версии здесь откроется запись <strong>{{ modal.source.id }}</strong> в системе ИТ-центра или финансовом реестре.</p>
-<p class="type-body-sm" style="color:var(--text-muted)">В прототипе внешние адреса и учётные данные не настроены. Демонстрационные записи не отправляются на сервер.</p>
-</sc-if>
-<sc-if value="{{ isModalConfirmRemove }}" hint-placeholder-val="{{ false }}">
-<p class="type-body-sm" style="margin-bottom:18px">Удалить это предложение из текущего браузера? Внешние системы не затрагиваются.</p>
-<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ modal.confirmRemove.onConfirm }}" hint-size="auto,40px">Удалить запись</x-import>
-</sc-if>
-<sc-if value="{{ isModalHelp }}" hint-placeholder-val="{{ false }}">
-<p class="type-body-sm" style="margin:0 0 14px">Все суммы, трудозатраты, статусы и документы в этом прототипе условные. Срез: 30 сентября 2026. Денежная единица: млн сум.</p>
-<table style="width:100%"><thead><tr><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Показатель</th><th class="type-caption-upper" style="text-align:left;padding:8px;border-bottom:1px solid var(--border-strong)">Определение</th></tr></thead>
-<tbody><sc-for list="{{ helpRows }}" as="h" hint-placeholder-count="7"><tr><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">{{ h.k }}</td><td class="type-body-sm" style="padding:8px;border-bottom:1px solid var(--border-default)">{{ h.v }}</td></tr></sc-for></tbody></table>
-<p class="type-body-sm" style="margin-top:14px">Расходы нельзя считать суммой плана, договоров, актов и платежей. Нет данных обозначается «—», а не нулём.</p>
-</sc-if>
-</x-import>
-</div>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-class Component extends DCLogic {
-  demo = {
-    departments:['Департамент политики государственного бюджета','Департамент казначейства','Департамент цифровых технологий','Департамент грантов'],
-    systems:[
-      {id:'open-budget',name:'Open-budget',dept:0,purpose:'Публикация и анализ открытых данных о государственном бюджете, исполнении и планировании расходов.',type:'Публичный портал',owner:'Не назначен',plan:1500,contract:1200,accepted:550,paid:400,forecast:1350,past:1100,future:1600,dev:640,support:180,releases:3,issues:2,status:'Развитие',risk:'high'},
-      {id:'uzasbo',name:'UzASBO',dept:1,purpose:'Автоматизация бюджетного учёта и финансовой отчётности.',type:'Учётная система',owner:'Заказчик: департамент казначейства',plan:1200,contract:900,accepted:600,paid:500,forecast:1100,past:1000,future:1250,dev:480,support:250,releases:2,issues:3,status:'Поддержка',risk:'high'},
-      {id:'e-budjet',name:'E-Budjet',dept:0,purpose:'Подготовка, согласование и мониторинг бюджетных заявок.',type:'Учётная система',owner:'Заказчик: департамент государственного бюджета',plan:1800,contract:1500,accepted:1050,paid:850,forecast:1750,past:1400,future:1950,dev:920,support:300,releases:4,issues:4,status:'Развитие',risk:'high'},
-      {id:'subsidiya',name:'Subsidiya',dept:0,purpose:'Регистрация и сопровождение заявок на субсидии.',type:'Публичный портал',owner:'Заказчик: департамент государственного бюджета',plan:850,contract:700,accepted:450,paid:350,forecast:800,past:650,future:900,dev:320,support:160,releases:2,issues:1,status:'Поддержка',risk:'normal'},
-      {id:'resurs-bank',name:'Resurs-bank',dept:1,purpose:'Каталог ресурсов и аналитическая отчётность.',type:'Аналитическая система',owner:'Не назначен',plan:950,contract:750,accepted:400,paid:300,forecast:900,past:720,future:1000,dev:210,support:160,releases:1,issues:1,status:'Развитие',risk:'normal'},
-      {id:'e-grant',name:'E-Grant',dept:3,purpose:'Учёт грантов и мониторинг исполнения проектов.',type:'Реестр',owner:'Заказчик: департамент грантов',plan:700,contract:550,accepted:320,paid:280,forecast:680,past:540,future:750,dev:260,support:80,releases:2,issues:0,status:'Поддержка',risk:'normal'},
-      {id:'planner',name:'Planner',dept:2,purpose:'Планирование и мониторинг исполнения поручений.',type:'Внутренняя система',owner:'Не назначен',plan:500,contract:400,accepted:250,paid:200,forecast:450,past:380,future:550,dev:190,support:100,releases:1,issues:1,status:'Поддержка',risk:'normal'}
-    ],
-    documents:[
-      {id:'passport',system:'open-budget',name:'Паспорт системы',kind:'Паспорт',period:'—',year:2026,version:2,status:'Актуальный',date:'12.03.2026',amount:null},
-      {id:'tz012',system:'open-budget',name:'Техническое задание · ТЗ-012',kind:'Техническое задание',period:'2026',year:2026,version:3,status:'Согласовано',date:'15.01.2026',amount:null},
-      {id:'d026',system:'open-budget',name:'Договор · Д-026',kind:'Договор',period:'2026',year:2026,version:1,status:'Подписан',date:'12.01.2026',amount:1200,number:'Д-026'},
-      {id:'schedule',system:'open-budget',name:'График выполнения работ',kind:'График',period:'2026',year:2026,version:2,status:'Утверждён',date:'12.01.2026',amount:null,contract:'d026'},
-      {id:'a021',system:'open-budget',name:'Акт выполненных работ · А-021',kind:'Акт',period:'I кв. 2026',year:2026,version:1,status:'Подписан',date:'31.03.2026',amount:300,contract:'d026',number:'А-021'},
-      {id:'a032',system:'open-budget',name:'Акт выполненных работ · А-032',kind:'Акт',period:'II кв. 2026',year:2026,version:1,status:'Подписан',date:'30.06.2026',amount:250,contract:'d026',number:'А-032'},
-      {id:'a041',system:'open-budget',name:'Акт выполненных работ · А-041',kind:'Акт',period:'III кв. 2026',year:2026,version:2,status:'На проверке',date:'30.09.2026',amount:300,contract:'d026',number:'А-041'},
-      {id:'s009',system:'open-budget',name:'Акт сверки · С-009',kind:'Сверка',period:'9 мес. 2026',year:2026,version:1,status:'Есть расхождение',date:'30.09.2026',amount:null,contract:'d026',number:'С-009'},
-      {id:'pi008',system:'open-budget',name:'Протокол испытаний · ПИ-008',kind:'Протокол',period:'2026',year:2026,version:1,status:'Подписан',date:'20.09.2026',amount:null},
-      {id:'d018',system:'uzasbo',name:'Договор · Д-018',kind:'Договор',period:'2026',year:2026,version:1,status:'Подписан',date:'15.01.2026',amount:900,number:'Д-018'},
-      {id:'a028',system:'uzasbo',name:'Акт выполненных работ · А-028',kind:'Акт',period:'II кв. 2026',year:2026,version:1,status:'Подписан',date:'30.06.2026',amount:180,contract:'d018',number:'А-028'}
-    ],
-    proposals:[
-      {id:'ПР-027',system:'open-budget',title:'Расширение отчётности',dept:0,type:'Развитие',year:2027,status:'Получено',amount:1600,person:'Координатор подразделения (пример)',problem:'Недостаточно детализации расходов по программам.',result:'Новые разрезы отчётности и экспорт данных.',date:'10.07.2026'},
-      {id:'ПР-024',system:'uzasbo',title:'Интеграция с казначейством',dept:1,type:'Интеграция',year:2027,status:'На уточнении',amount:1250,person:'Координатор подразделения (пример)',problem:'Данные переносятся вручную.',result:'Автоматизированный обмен данными.',date:'09.07.2026'},
-      {id:'ПР-019',system:'e-budjet',title:'Автоматизация согласований',dept:0,type:'Развитие',year:2027,status:'В проекте плана',amount:1950,date:'08.07.2026'},
-      {id:'ПР-021',system:'planner',title:'Модуль мониторинга исполнения',dept:2,type:'Развитие',year:2027,status:'На уточнении',amount:null,date:'07.07.2026'},
-      {id:'ПР-018',system:'e-grant',title:'Личный кабинет заявителя',dept:3,type:'Развитие',year:2027,status:'В проекте плана',amount:750,date:'06.07.2026'},
-      {id:'ПР-020',system:'resurs-bank',title:'Аналитические отчёты по ресурсам',dept:1,type:'Развитие',year:2027,status:'Получено',amount:1000,date:'05.07.2026'}
-    ],
-    works:[
-      {id:'IT-101',name:'Развитие API отчётности',type:'Разработка',status:'В работе',start:'12.08.2026',end:'30.10.2026',plan:240,hours:220,role:'Разработчик'},
-      {id:'IT-102',name:'Доработка экспорта данных',type:'Разработка',status:'Завершена',start:'01.07.2026',end:'15.08.2026',plan:250,hours:240,role:'Разработчик'},
-      {id:'IT-103',name:'Тестирование нового отчёта',type:'Разработка',status:'Завершена',start:'10.08.2026',end:'20.08.2026',plan:200,hours:180,role:'Тестировщик'},
-      {id:'IT-104',name:'Исправление ошибки авторизации',type:'Поддержка',status:'Завершена',start:'01.07.2026',end:'02.07.2026',plan:40,hours:32,role:'Разработчик'},
-      {id:'IT-105',name:'Обновление справочников',type:'Поддержка',status:'Завершена',start:'10.07.2026',end:'15.07.2026',plan:50,hours:48,role:'Аналитик'},
-      {id:'IT-106',name:'Диагностика выгрузки данных',type:'Поддержка',status:'В работе',start:'15.09.2026',end:'10.10.2026',plan:120,hours:100,role:'Разработчик'}
-    ]
+function initGridPulse(el, paper) {
+  if (!el || !paper) return () => {};
+  const ctx = paper.getContext('2d');
+  if (!ctx) return () => {};
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {};
+
+  const cell = 24, ambient = 3, maxLit = 180;
+  const HUE_TOP = 60, HUE_SPAN = 270;
+  const TINTS = [88, 80, 72, 64, 56];
+  const TINTS_DARK = [72, 65, 58, 51, 44];
+  const FADE_IN = 160, FADE_OUT = 750;
+  let cols = 1, rows = 1, width = 0, height = 0;
+  let tints = TINTS;
+  const cells = new Map();
+
+  const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  const readTheme = () => {
+    if (!probe) return;
+    probe.clearRect(0, 0, 1, 1);
+    probe.fillStyle = getComputedStyle(el).color;
+    probe.fillRect(0, 0, 1, 1);
+    const d = probe.getImageData(0, 0, 1, 1).data;
+    const light = (0.2126 * d[0] + 0.7152 * d[1] + 0.0722 * d[2]) / 255 > 0.5;
+    tints = light ? TINTS_DARK : TINTS;
   };
 
-  state = { route:{page:'overview'}, filters:{}, selSystem:'open-budget', selDoc:'a041', selProposal:'ПР-027', sortKey:'plan', sortDir:-1, workTab:'works', chartView:'years', saved:[], draft:{}, fileNames:[], toast:null, modal:null };
+  const easeOut = (t) => 1 - (1 - t) ** 2;
+  const easeIn = (t) => t * t;
 
-  componentDidMount(){
-    let saved=this.loadLS('proposals',[]); if(!Array.isArray(saved)) saved=[];
-    this.setState({saved, draft:this.loadLS('draft',{}), comments:this.loadLS('comments',{})});
-  }
-  discussionKeys = { docSeed:{
-    'a041':[{author:'Инспектор МЭФ',ts:'25.09.2026 14:10',text:'Проверьте расчёт часов по интеграции API — расходится с журналом задач ИТ-центра.'}]
-  }, propSeed:{
-    'ПР-024':[{author:'Департамент казначейства',ts:'10.07.2026 09:40',text:'Уточните, потребуется ли доработка на стороне UzASBO или только на стороне интеграции.'}]
-  }};
-  discussionFor(kind,id){
-    const seedMap = kind==='doc'? this.discussionKeys.docSeed : this.discussionKeys.propSeed;
-    const seed = seedMap[id]||[];
-    const key = kind+':'+id;
-    const own = (this.state.comments||{})[key]||[];
-    return {
-      items:[...seed,...own], empty: seed.length===0 && own.length===0,
-      draft: this.state.commentDraftKey===key? (this.state.commentDraft||'') : '',
-      onDraftChange: e=>this.setState({commentDraftKey:key, commentDraft:e.target.value}),
-      onAdd: ()=>this.addComment(kind,id)
-    };
-  }
-  addComment(kind,id){
-    const key=kind+':'+id;
-    const text=(this.state.commentDraftKey===key? this.state.commentDraft:'').trim();
-    if(!text) return;
-    const entry={author:'Вы (демо)', ts:new Date().toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}), text};
-    const comments={...(this.state.comments||{})}; comments[key]=[...(comments[key]||[]),entry];
-    this.saveLS('comments',comments);
-    this.setState({comments, commentDraft:''});
-  }
+  const ink = (row) => {
+    const t = rows > 1 ? Math.min(1, row / (rows - 1)) : 0;
+    const hue = (((HUE_TOP - t * HUE_SPAN) % 360) + 360) % 360;
+    const tint = tints[Math.floor(Math.random() * tints.length)];
+    return 'hsl(' + Math.round(hue) + ' 94% ' + tint + '%)';
+  };
 
-  loadLS(key,fallback){ try{ const v=JSON.parse(localStorage.getItem('mef.'+key)); return v==null?fallback:v; }catch(e){ return fallback; } }
-  saveLS(key,v){ try{ localStorage.setItem('mef.'+key, JSON.stringify(v)); return true; }catch(e){ return false; } }
-
-  num(v){ return (v===null||v===undefined)?'—':new Intl.NumberFormat('ru-RU',{maximumFractionDigits:1}).format(v); }
-  money(v){ return this.num(v)+' млн сум'; }
-  sum(arr,k){ return arr.reduce((a,x)=>a+(x[k]||0),0); }
-  sys(id){ return this.demo.systems.find(s=>s.id===id); }
-  doc(id){ return this.demo.documents.find(d=>d.id===id); }
-  badgeVariant(s){
-    if(/Подписан|Согласовано|Утверждён|Актуальный|Подтверждено|Завершена|В проекте|Выпущен|Получено/.test(s)) return 'success';
-    if(/расхождение|Высокая/.test(s)) return 'error';
-    if(/проверке|уточнении|Ожидается|работе|Средняя|Черновик/.test(s)) return 'warning';
-    return 'neutral';
-  }
-  annualValues(ss){ const past=this.sum(ss,'past'), forecast=this.sum(ss,'forecast'), future=this.sum(ss,'future'); return [Math.round(past*0.82), past, forecast, future]; }
-  withTrend(vals,labels,colors,maxPx,barH){
-    const max=Math.max(...vals)*1.15||1;
-    return labels.map((l,i)=>{
-      const barPxNum=Math.max(4,Math.round(vals[i]/max*maxPx));
-      const prev=vals[i-1];
-      const hasDelta=i>0 && prev>0;
-      const pct=hasDelta?Math.round((vals[i]-prev)/prev*100):0;
-      return {label:l,value:this.num(vals[i]),raw:vals[i],barPx:barPxNum+'px',bg:colors[i],
-        topPct:Math.round(100-barPxNum/barH*100),
-        hasDelta, deltaText:hasDelta?(pct>=0?'▲ +':'▼ ')+Math.abs(pct)+'%':'',
-        deltaColor:pct>=0?'var(--semantic-success)':'var(--semantic-error)'};
-    });
-  }
-  chartBars(ss,maxPx){
-    const vals=this.annualValues(ss), labels=['2024 · факт','2025 · факт','2026 · потребность','2027 · прогноз'];
-    const colors=['var(--color-sky-light)','var(--color-sky-mid)','color-mix(in oklch, var(--color-sky-mid), black 32%)','color-mix(in oklch, var(--color-sky-mid), black 58%)'];
-    return this.withTrend(vals,labels,colors,maxPx,170);
-  }
-  quarterlyBars(ss,maxPx){
-    const accepted=this.sum(ss,'accepted'), forecast=this.sum(ss,'forecast');
-    const ratio=[300,430,300]; const rs=ratio.reduce((a,b)=>a+b,0);
-    const q1=Math.round(accepted*ratio[0]/rs), q2=Math.round(accepted*ratio[1]/rs), q3=Math.max(0,accepted-q1-q2);
-    const q4=Math.max(0,forecast-(q1+q2+q3));
-    const vals=[q1,q2,q3,q4], labels=['I кв. · факт','II кв. · факт','III кв. · факт','IV кв. · потребность'];
-    const colors=['var(--color-sky-light)','var(--color-sky-mid)','color-mix(in oklch, var(--color-sky-mid), black 32%)','color-mix(in oklch, var(--color-sky-mid), black 58%)'];
-    return this.withTrend(vals,labels,colors,maxPx,170);
-  }
-  linePoints(bars){
-    const n=bars.length;
-    return bars.map((b,i)=>((i+0.5)/n*100).toFixed(1)+','+b.topPct).join(' ');
-  }
-
-  go(page, params={}){
-    this.setState(s=>{
-      const next={route:{page,...params}, filters:{}};
-      if(params.systemId) next.selSystem=params.systemId;
-      if(params.docId) next.selDoc=params.docId;
-      if(params.proposalId) next.selProposal=params.proposalId;
-      if(page==='proposal-form'){
-        const editId=params.formId||null;
-        const draft = editId ? {...(s.saved.find(p=>p.id===editId)||{})} : ((s.draft&&Object.keys(s.draft).length)?s.draft:{});
-        next.draft=draft; next.fileNames=draft.attachments||[]; next.route={page,formId:editId};
+  let frame = 0;
+  const draw = (now) => {
+    frame = 0;
+    ctx.clearRect(0, 0, width, height);
+    for (const [key, c] of cells) {
+      let alpha;
+      if (now < c.until) {
+        alpha = easeOut(Math.min(1, (now - c.born) / FADE_IN));
+      } else {
+        const t = (now - c.until) / FADE_OUT;
+        if (t >= 1) { cells.delete(key); continue; }
+        alpha = 1 - easeIn(t);
       }
-      return next;
-    });
-  }
-  navSelect(key){ this.go(key); }
-  selectSystem(id){ this.setState({selSystem:id}); }
-  selectDoc(id){ this.setState({selDoc:id}); }
-  selectProposal(id){ this.setState({selProposal:id}); }
-  setFilter(key,val){ this.setState(s=>({filters:{...s.filters,[key]:val}})); }
-  setSort(key){ this.setState(s=>({sortKey:key, sortDir: s.sortKey===key? s.sortDir*-1 : -1})); }
-  setWorkTab(id){ this.setState({workTab:id, filters:{}}); }
-  setTab(tab){ this.setState(s=>({route:{...s.route,tab}, filters:{}})); }
-  openModal(kind,payload){ this.setState({modal:{kind,payload}}); }
-  closeModal(){ this.setState({modal:null}); }
-  showToast(text){ this.setState({toast:text}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:null}),4200); }
-
-  download(name,content,type){ const blob=new Blob([content],{type}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; a.style.display='none'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),60000); }
-  csv(rows){ return '\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v??'').replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"').join(';')).join('\r\n'); }
-  exportSystemsCsv(ss){ const headers=['Система','План 2026','Договоры','Принято','Оплачено','Разработка, ч','Поддержка, ч']; const rows=ss.map(s=>[s.name,s.plan,s.contract,s.accepted,s.paid,s.dev,s.support]); this.download('MEF_systems_DEMO.csv',this.csv([headers,...rows]),'text/csv;charset=utf-8'); this.showToast('Экспортирована текущая выборка. Данные демонстрационные.'); }
-  exportDocsCsv(ds){ const headers=['Документ','Система','Период','Версия','Статус']; const rows=ds.map(d=>[d.name,this.sys(d.system).name,d.period,d.version,d.status]); this.download('MEF_documents_DEMO.csv',this.csv([headers,...rows]),'text/csv;charset=utf-8'); this.showToast('Экспортирована текущая выборка. Данные демонстрационные.'); }
-  exportProposalsCsv(ps){ const headers=['ID','Предложение','Система','Год','Статус','Потребность']; const rows=ps.map(p=>[p.id,p.title,this.sys(p.system)?.name||p.newSystem,p.year,p.status,p.amount]); this.download('MEF_proposals_DEMO.csv',this.csv([headers,...rows]),'text/csv;charset=utf-8'); this.showToast('Экспортирована текущая выборка. Данные демонстрационные.'); }
-  exportWorksCsv(ws){ const headers=['ID','Работа','Тип','Статус','План, ч','Факт, ч']; const rows=ws.map(w=>[w.id,w.name,w.type,w.status,w.plan,w.hours]); this.download('MEF_works_DEMO.csv',this.csv([headers,...rows]),'text/csv;charset=utf-8'); this.showToast('Экспортирована текущая выборка. Данные демонстрационные.'); }
-
-  proposalsAll(){ return [...this.state.saved, ...this.demo.proposals]; }
-  filteredSystems(applySearch){
-    const f=this.state.filters;
-    return this.demo.systems.filter(s=>
-      (!f.dept || String(s.dept)===f.dept) &&
-      (!f.type || s.type===f.type) &&
-      (!f.risk || s.risk===f.risk) &&
-      (!applySearch || !f.q || (s.name+' '+s.purpose).toLowerCase().includes((f.q||'').toLowerCase()))
-    );
-  }
-  sortedSystems(){
-    const ss=this.filteredSystems(true), k=this.state.sortKey, d=this.state.sortDir;
-    return [...ss].sort((a,b)=>(typeof a[k]==='number'?a[k]-b[k]:String(a[k]).localeCompare(String(b[k])))*d);
-  }
-  filteredDocuments(scopedId){
-    const f=this.state.filters;
-    return this.demo.documents.filter(d=>
-      (!scopedId || d.system===scopedId) &&
-      (!f.system || d.system===f.system) &&
-      (!f.kind || d.kind===f.kind) &&
-      (!f.status || d.status===f.status) &&
-      (!f.year || String(d.year)===String(f.year)) &&
-      (!f.q || (d.name+' '+this.sys(d.system).name).toLowerCase().includes(f.q.toLowerCase()))
-    );
-  }
-  filteredProposals(){
-    const f=this.state.filters;
-    return this.proposalsAll().filter(p=>
-      (!f.year || String(p.year)===String(f.year)) &&
-      (!f.dept || String(p.dept)===f.dept) &&
-      (!f.status || p.status===f.status) &&
-      (!f.q || (p.title+' '+p.id+' '+(this.sys(p.system)?.name||p.newSystem||'')).toLowerCase().includes(f.q.toLowerCase()))
-    );
-  }
-  filteredWorks(systemId){
-    if(systemId!=='open-budget') return [];
-    const f=this.state.filters;
-    return this.demo.works.filter(w=>
-      (!f.workType || w.type===f.workType) &&
-      (!f.workStatus || w.status===f.workStatus) &&
-      (!f.q || (w.name+' '+w.id).toLowerCase().includes((f.q||'').toLowerCase()))
-    );
-  }
-  deptOptions(){ return [{value:'',label:'Все подразделения'},...this.demo.departments.map((d,i)=>({value:String(i),label:d}))]; }
-  typeOptions(){ const t=[...new Set(this.demo.systems.map(s=>s.type))]; return [{value:'',label:'Все типы'},...t.map(x=>({value:x,label:x}))]; }
-  kindOptions(){ const k=[...new Set(this.demo.documents.map(d=>d.kind))]; return [{value:'',label:'Все типы'},...k.map(x=>({value:x,label:x}))]; }
-  docStatusOptions(){ const s=[...new Set(this.demo.documents.map(d=>d.status))]; return [{value:'',label:'Все статусы'},...s.map(x=>({value:x,label:x}))]; }
-  systemOptions(){ return [{value:'',label:'Все системы'},...this.demo.systems.map(s=>({value:s.id,label:s.name}))]; }
-  systemOptionsForm(){ const o=this.demo.systems.map(s=>({value:s.id,label:s.name})); o.push({value:'new',label:'Новая система'}); return o; }
-
-  previewSections(d){
-    if(d.kind==='Техническое задание') return [{title:'Состав требований',items:['Дополнительные разрезы отчётности.','Выгрузка данных в согласованном формате.','Проверка полномочий пользователей.','Приёмочные испытания и документация.']}];
-    if(d.kind==='Договор') return [{title:'Предмет договора',items:['Разработка и техническая поддержка системы.','Устранение выявленных инцидентов в согласованные сроки.','Передача исключительных прав на результаты работ заказчику.']}];
-    if(d.kind==='График') return [{title:'Этапы выполнения',items:['I квартал — анализ и проектирование.','II квартал — разработка и внутреннее тестирование.','III квартал — приёмочные испытания.','IV квартал — ввод в эксплуатацию.']}];
-    if(d.kind==='Паспорт') return [{title:'Разделы паспорта',items:['Назначение и функциональные возможности системы.','Архитектура и используемые технологии.','Ответственные лица и контакты поддержки.']}];
-    if(d.kind==='Протокол') return [{title:'Результаты испытаний',items:['Проверка соответствия техническому заданию.','Замечания устранены до подписания.','Система допущена к эксплуатации.']}];
-    if(d.kind==='Сверка') return [{title:'Предмет сверки',items:['Сопоставление принятых работ и произведённых оплат.','Выявленные расхождения требуют уточнения у заказчика.']}];
-    return [];
-  }
-  actRows(d){ if(d.id==='a041') return [['Развитие отчётности',100,1.5,150],['Интеграция API',60,1.5,90],['Техническая поддержка',40,1.5,60]]; return [['Работы по договору за отчётный период',1,d.amount,d.amount]]; }
-  actTableRows(d){ const unit=d.id==='a041'?'чел.-ч':'комплект'; return this.actRows(d).map(x=>({name:x[0],qty:this.num(x[1]),unit,price:this.num(x[2]),sum:this.num(x[3])})); }
-  ledgerRows(){
-    const raw=[['a021','Акт А-021','31.03.2026',300,null],['','ПП-051','15.04.2026',null,250],['a032','Акт А-032','30.06.2026',250,null],['','ПП-097','15.07.2026',null,100],['','ПП-118','15.09.2026',null,50]];
-    return raw.map(x=>({label:x[1],date:x[2],accepted:this.num(x[3]),paid:this.num(x[4]),clickable:!!x[0],notClickable:!x[0],onOpen:x[0]?()=>this.go('document',{docId:x[0]}):(()=>{})}));
-  }
-
-  buildDocInspector(d){
-    const s=this.sys(d.system);
-    const meta=[];
-    meta.push({label:'Система',value:s.name,isBadge:false,isText:true,onOpen:()=>this.go('system',{systemId:s.id,tab:'general'})});
-    if(d.contract){ const c=this.doc(d.contract); meta.push({label:'Связанный договор',value:c.number,isBadge:false,isText:true}); }
-    if(d.amount!=null) meta.push({label:'Сумма',value:this.money(d.amount),isBadge:false,isText:true});
-    meta.push({label:'Версия',value:'v'+d.version,isBadge:false,isText:true});
-    meta.push({label:'Источник',value:'ИТ-центр · демонстрация',isBadge:false,isText:true});
-    const confirm = d.kind==='Акт'
-      ? [{label:'Заказчик',value:'Подтверждено',isBadge:true,isText:false,badgeVariant:'success'},{label:'ИТ-центр',value:'Подписано',isBadge:true,isText:false,badgeVariant:'success'},{label:'Координирующий департамент',value:d.status==='На проверке'?'Ожидается':'Подтверждено',isBadge:true,isText:false,badgeVariant:d.status==='На проверке'?'warning':'success'}]
-      : [{label:'Статус',value:d.status,isBadge:true,isText:false,badgeVariant:this.badgeVariant(d.status)},{label:'Дата документа',value:d.date,isBadge:false,isText:true}];
-    return {
-      name: d.number? d.kind+' '+d.number : d.name,
-      subtitle: d.period==='—' ? 'Документ системы' : d.period,
-      meta, confirm,
-      fileLabel:(d.number||d.kind)+'_v'+d.version+'.pdf',
-      onDownload:()=>this.showToast('Скачан демонстрационный образец PDF.'),
-      warnReview:d.status==='На проверке',
-      warnRecon:d.kind==='Сверка',
-      onOpenDetail:()=>this.go('document',{docId:d.id}),
-      onPreview:()=>this.openModal('preview',d.id),
-      onVersions:()=>this.openModal('versions',d.id),
-      onSource:()=>this.openModal('source',d.id)
-    };
-  }
-
-  buildDocuments(scopedId){
-    const ds=this.filteredDocuments(scopedId);
-    const cur=ds.find(d=>d.id===this.state.selDoc)||ds[0];
-    const rows=ds.map(d=>({
-      id:d.id, name:d.name, hasSystem:!scopedId, systemName: scopedId?'':this.sys(d.system).name,
-      onSystem:()=>this.go('system',{systemId:d.system,tab:'documents'}),
-      period:d.period, version:'v'+d.version, status:d.status, statusVariant:this.badgeVariant(d.status),
-      rowBg: cur&&cur.id===d.id?'var(--bg-canvas-soft)':'transparent', onSelect:()=>this.selectDoc(d.id)
-    }));
-    return {
-      rows, count:ds.length, scoped:!!scopedId,
-      q:this.state.filters.q||'', onQChange:e=>this.setFilter('q',e.target.value),
-      yearVal:this.state.filters.year||'', yearOptions:[{value:'',label:'Все годы'},{value:'2026',label:'2026'},{value:'2025',label:'2025'}], onYearChange:v=>this.setFilter('year',v),
-      kindVal:this.state.filters.kind||'', kindOptions:this.kindOptions(), onKindChange:v=>this.setFilter('kind',v),
-      statusVal:this.state.filters.status||'', statusOptions:this.docStatusOptions(), onStatusChange:v=>this.setFilter('status',v),
-      systemVal:this.state.filters.system||'', systemOptions:this.systemOptions(), onSystemChange:v=>this.setFilter('system',v),
-      onExport:()=>this.exportDocsCsv(ds),
-      hasSelection:!!cur, inspector: cur? this.buildDocInspector(cur): null,
-      showSystemFilter: !scopedId, showRegistryNote: !scopedId,
-      showCompleteness: !!scopedId,
-      completeness: scopedId? [
-        {label:'Документы приёмки', status: scopedId==='open-budget'?'Акт на согласовании':'Требуется проверка', variant: scopedId==='open-budget'?'warning':'neutral'},
-        {label:'Ввод в эксплуатацию', status:'Документ не загружен', variant:'neutral'}
-      ] : []
-    };
-  }
-
-  buildOverview(){
-    const ss=this.filteredSystems(false);
-    const t={}; ['plan','contract','accepted','paid'].forEach(k=>t[k]=this.sum(ss,k));
-    const chartBars = this.state.chartView==='quarters'? this.quarterlyBars(ss,150) : this.chartBars(ss,150);
-    const chartGrowth = chartBars.length>1 && chartBars[0].raw>0 ? Math.round((chartBars[chartBars.length-1].raw-chartBars[0].raw)/chartBars[0].raw*100) : null;
-    return {
-      stats:[{label:'Утверждено',value:this.money(t.plan)},{label:'По договорам',value:this.money(t.contract)},{label:'Принято по актам',value:this.money(t.accepted)},{label:'Оплачено',value:this.money(t.paid)}],
-      deptOptions:this.deptOptions(), typeOptions:this.typeOptions(),
-      deptVal:this.state.filters.dept||'', typeVal:this.state.filters.type||'',
-      onDeptChange:v=>this.setFilter('dept',v), onTypeChange:v=>this.setFilter('type',v),
-      count:ss.length, onExport:()=>this.exportSystemsCsv(ss),
-      chartBars: chartBars,
-      chartLinePoints: this.linePoints(chartBars),
-      chartGrowthText: chartGrowth===null?'':'Рост '+(chartGrowth>=0?'+':'')+chartGrowth+'% с '+chartBars[0].label.split(' ')[0],
-      chartGrowthColor: chartGrowth>=0?'var(--semantic-success)':'var(--semantic-error)',
-      chartTitle: this.state.chartView==='quarters'? 'Расходы по кварталам' : 'Расходы по годам',
-      chartSubtitle: this.state.chartView==='quarters'? 'Млн сум · 2026 год, факт по кварталам и потребность на IV квартал' : 'Млн сум · оплачено за прошлые годы, потребность текущего года и прогноз на будущее',
-      onViewYears:()=>this.setState({chartView:'years'}), onViewQuarters:()=>this.setState({chartView:'quarters'}),
-      yearsBg: this.state.chartView==='years'?'var(--action-primary)':'var(--bg-surface)', yearsColor: this.state.chartView==='years'?'var(--text-on-primary)':'var(--text-muted)',
-      quartersBg: this.state.chartView==='quarters'?'var(--action-primary)':'var(--bg-surface)', quartersColor: this.state.chartView==='quarters'?'var(--text-on-primary)':'var(--text-muted)',
-      attention: ss.filter(s=>s.issues>1).slice(0,3).map(s=>({name:s.name,issues:s.issues,onOpen:()=>this.go('system',{systemId:s.id,tab:'work'})})),
-      attentionEmpty: ss.filter(s=>s.issues>1).length===0,
-      rows: ss.map(s=>({id:s.id,name:s.name,type:s.type,paid:this.num(s.paid),releases:s.releases,dev:this.num(s.dev),support:this.num(s.support),issues:s.issues,
-        onOpen:()=>this.go('system',{systemId:s.id,tab:'general'}), onIssues:()=>this.go('system',{systemId:s.id,tab:'work'})})),
-      portfolioRows: (()=>{
-        return ss.map(s=>{ const pct=s.plan? Math.round(s.paid/s.plan*100):0;
-        const deltaPct = s.plan? Math.round((s.future-s.plan)/s.plan*100) : null;
-        return {id:s.id,name:s.name,type:s.type,plan:this.num(s.plan),paid:this.num(s.paid),future:this.num(s.future),
-        paidBarPct:Math.min(100,Math.max(2,pct))+'%',
-        execPct:pct+'%', execNum:pct, execBarStyle:{width:'72px'}, execVariant: pct>=70?'success':pct>=40?'warning':'error',
-        deltaLabel: deltaPct===null?'—':((deltaPct>0?'+':'')+deltaPct+'%'),
-        deltaVariant: deltaPct>0?'error':deltaPct<0?'success':'neutral',
-        onOpen:()=>this.go('system',{systemId:s.id,tab:'budget'})}; }); })()
-    };
-  }
-
-  buildSystemsList(){
-    const ss=this.sortedSystems();
-    const sel=ss.find(s=>s.id===this.state.selSystem)||ss[0];
-    return {
-      q:this.state.filters.q||'', onQChange:e=>this.setFilter('q',e.target.value),
-      deptOptions:this.deptOptions(), deptVal:this.state.filters.dept||'', onDeptChange:v=>this.setFilter('dept',v),
-      riskOptions:[{value:'',label:'Все системы'},{value:'high',label:'Требуют внимания'},{value:'normal',label:'Без повышенного риска'}],
-      riskVal:this.state.filters.risk||'', onRiskChange:v=>this.setFilter('risk',v),
-      sortPlanLabel:'По плану '+(this.state.sortKey==='plan'?(this.state.sortDir===-1?'↓':'↑'):''),
-      sortPaidLabel:'По оплате '+(this.state.sortKey==='paid'?(this.state.sortDir===-1?'↓':'↑'):''),
-      onSortPlan:()=>this.setSort('plan'), onSortPaid:()=>this.setSort('paid'),
-      onExport:()=>this.exportSystemsCsv(ss), count:ss.length,
-      rows: ss.map(s=>({id:s.id,name:s.name,type:s.type,plan:this.num(s.plan),accepted:this.num(s.accepted),paid:this.num(s.paid),status:s.status,statusVariant:this.badgeVariant(s.status),
-        rowBg: sel&&sel.id===s.id?'var(--bg-canvas-soft)':'transparent', onSelect:()=>this.selectSystem(s.id)})),
-      hasSelection:!!sel,
-      sel: sel? {name:sel.name,type:sel.type,
-        meta:[['Заказчик',this.demo.departments[sel.dept]],['План на год',this.money(sel.plan)],['По договорам',this.money(sel.contract)],['Принято по актам',this.money(sel.accepted)],['Оплачено',this.money(sel.paid)],['Принято, не оплачено',this.money(sel.accepted-sel.paid)],['Открытые проблемы',String(sel.issues)]].map(([label,value])=>({label,value})),
-        onOpenCard:()=>this.go('system',{systemId:sel.id,tab:'general'}), onOpenDocs:()=>this.go('system',{systemId:sel.id,tab:'documents'})
-      }: null
-    };
-  }
-
-  buildSystemPage(){
-    const route=this.state.route;
-    const s=this.sys(route.systemId)||this.sys(this.state.selSystem)||this.demo.systems[0];
-    const tab=route.tab||'general';
-    const titles={general:'Паспорт и история системы',work:'Разработка и техническая поддержка',budget:'Финансирование и исполнение',documents:'Документы системы'};
-    const tabDefs=[['general','Общее'],['work','Разработка и поддержка'],['budget','Бюджет'],['documents','Документы']];
-    const tabs=tabDefs.map(([k,label])=>({label,onClick:()=>{ this.selectSystem(s.id); this.go('system',{systemId:s.id,tab:k}); },
-      color: tab===k?'var(--action-primary)':'var(--text-muted)', weight: tab===k?600:400, border: tab===k?'2px solid var(--action-primary)':'2px solid transparent'}));
-
-    const general={
-      meta:[
-        {label:'Назначение',value:s.purpose,isText:true,isBadge:false},
-        {label:'Функциональный заказчик',value:this.demo.departments[s.dept],isText:true,isBadge:false},
-        {label:'Владелец системы',value:s.owner,isText:true,isBadge:false},
-        {label:'Технический исполнитель',value:'ИТ-центр (пример)',isText:true,isBadge:false},
-        {label:'Тип',value:s.type,isText:true,isBadge:false},
-        {label:'Состояние',value:s.status,isBadge:true,isText:false,badgeVariant:this.badgeVariant(s.status)}
-      ],
-      modules:[{name:'Основной модуль',purpose:'Основные функции системы'},{name:'Отчётность',purpose:'Формирование отчётов и выгрузок'},{name:'Интеграции',purpose:'Обмен данными'}],
-      proposals: this.proposalsAll().filter(p=>p.system===s.id).map(p=>({title:p.title,year:p.year,status:p.status,statusVariant:this.badgeVariant(p.status),onOpen:()=>this.go('proposals',{proposalId:p.id})})),
-      hasProposals: this.proposalsAll().filter(p=>p.system===s.id).length>0,
-      sourceMeta:[['API ИТ-центра','Не подключён'],['Финансовый источник','Не подключён'],['Дата синхронизации','Нет данных']].map(([label,value])=>({label,value})),
-      onOpenDocs:()=>this.go('system',{systemId:s.id,tab:'documents'})
-    };
-
-    const works=this.filteredWorks(s.id);
-    const done=works.filter(w=>w.status==='Завершена').map(w=>w.hours).sort((a,b)=>a-b);
-    const avg=done.length? this.num(done.reduce((a,b)=>a+b,0)/done.length): '—';
-    const median=done.length? this.num((done[(done.length-1)>>1]+done[done.length>>1])/2): '—';
-    const workTab=this.state.workTab;
-    const work={
-      stats:[{label:'Разработка · факт',value:this.num(s.dev)+' ч'},{label:'Поддержка · факт',value:this.num(s.support)+' ч'},{label:'Релизы за 9 мес.',value:String(s.releases)},{label:'Открытые проблемы',value:String(s.issues)}],
-      onExport:()=>this.exportWorksCsv(works),
-      chips:[['works','Работы'],['people','Участники'],['releases','Релизы'],['issues','Инциденты']].map(([k,label])=>({label,onClick:()=>this.setWorkTab(k),
-        bg: workTab===k?'var(--bg-surface-strong)':'transparent', color: workTab===k?'var(--text-primary)':'var(--text-secondary)'})),
-      q:this.state.filters.q||'', onQChange:e=>this.setFilter('q',e.target.value),
-      typeOptions:[{value:'',label:'Все работы'},{value:'Разработка',label:'Разработка'},{value:'Поддержка',label:'Поддержка'}], typeVal:this.state.filters.workType||'', onTypeChange:v=>this.setFilter('workType',v),
-      statusOptions:[{value:'',label:'Все статусы'},{value:'В работе',label:'В работе'},{value:'Завершена',label:'Завершена'}], statusVal:this.state.filters.workStatus||'', onStatusChange:v=>this.setFilter('workStatus',v),
-      rows: works.map(w=>({id:w.id,name:w.name,type:w.type,status:w.status,statusVariant:this.badgeVariant(w.status),end:w.end,plan:this.num(w.plan),hours:this.num(w.hours)})),
-      doneCount:done.length, avg, median,
-      people:[{id:'DEV-01',role:'Разработчик',hours:592,part:'Разработка и поддержка'},{id:'QA-01',role:'Тестировщик',hours:180,part:'Разработка'},{id:'BA-01',role:'Аналитик',hours:48,part:'Поддержка'}].map(p=>({...p,hours:this.num(p.hours)})),
-      releases:[{v:'2.1',date:'15.03.2026',notes:'Дополнительные разрезы отчётности'},{v:'2.2',date:'15.06.2026',notes:'Интеграция справочников'},{v:'2.3',date:'20.09.2026',notes:'Экспорт и исправления'}],
-      issues: Array.from({length:s.issues},(_,i)=>({name:['Тайм-аут при выгрузке данных','Задержка формирования отчёта','Ошибка проверки входных данных','Недоступность интеграции'][i%4],severity:i===0?'Высокая':'Средняя',sevVariant:i===0?'error':'warning',date:(i+1)+'.09.2026',repeat:String(i+2)}))
-    };
-
-    const contracts=this.demo.documents.filter(d=>d.system===s.id&&d.kind==='Договор');
-    const budget={
-      chartBars:this.chartBars([s],130),
-      execMeta:[['Утверждено на год',this.money(s.plan)],['Остаток плана вне договоров',this.money(s.plan-s.contract)],['Принятые работы к оплате',this.money(s.accepted-s.paid)],['Прогноз годовых расходов',this.money(s.forecast)],['Изменение к факту 2025',this.num(Math.round((s.forecast/s.past-1)*1000)/10)+'%']].map(([label,value])=>({label,value})),
-      contracts: contracts.map(d=>({name:d.name,period:d.period,amount:this.num(d.amount),status:d.status,statusVariant:this.badgeVariant(d.status),onOpen:()=>this.go('document',{docId:d.id})})),
-      stats:[{label:'Утверждено',value:this.money(s.plan)},{label:'По договорам',value:this.money(s.contract)},{label:'Принято по актам',value:this.money(s.accepted)},{label:'Оплачено',value:this.money(s.paid)}],
-      hasLedger: s.id==='open-budget', noLedger: s.id!=='open-budget', ledger: this.ledgerRows()
-    };
-
-    return {system:s, tabTitle:titles[tab]||'', tabs, onBack:()=>this.go('systems'), general, work, budget};
-  }
-
-  buildDocumentDetail(){
-    const d=this.doc(this.state.route.docId)||this.doc(this.state.selDoc);
-    const s=this.sys(d.system);
-    const kind = d.id==='d026'?'contract' : d.kind==='Акт'?'act' : d.id==='s009'?'reconciliation' : 'generic';
-    const inspector=this.buildDocInspector(d);
-    const base={
-      name:d.name, systemName:s.name, period:d.period, date:d.date, version:d.version,
-      crumbLabel: d.number||d.name,
-      onDocs:()=>this.go('documents'), onSystemDocs:()=>this.go('system',{systemId:d.system,tab:'documents'}),
-      onPreview:()=>this.openModal('preview',d.id), onDownload:()=>this.showToast('Скачан демонстрационный образец PDF.'),
-      kind, inspector, discussion: this.discussionFor('doc',d.id)
-    };
-    if(kind==='contract'){
-      const acts=this.demo.documents.filter(x=>x.contract===d.id&&x.kind==='Акт');
-      base.contract={
-        stats:[{label:'По договору',value:this.money(1200)},{label:'Принято по актам',value:this.money(550)},{label:'Оплачено',value:this.money(400)},{label:'Принято, не оплачено',value:this.money(150)}],
-        subject:[{system:'Open-budget',year:2026,type:'Разработка',amount:this.num(900)},{system:'Open-budget',year:2026,type:'Техническая поддержка',amount:this.num(300)}],
-        quarters:[[1,300,'31.03.2026','Подписан',300],[2,250,'30.06.2026','Подписан',250],[3,300,'30.09.2026','На проверке',null],[4,350,'31.12.2026','Ожидается',null]].map(x=>({q:x[0],plan:this.num(x[1]),due:x[2],status:x[3],statusVariant:this.badgeVariant(x[3]),accepted:this.num(x[4])})),
-        acts: acts.map(a=>({number:a.number,period:a.period,amount:this.num(a.amount),status:a.status,statusVariant:this.badgeVariant(a.status),onOpen:()=>this.go('document',{docId:a.id})}))
-      };
-    } else if(kind==='act'){
-      base.act={rows:this.actTableRows(d), total:this.num(d.amount), onWork:()=>this.go('system',{systemId:d.system,tab:'work'}), onContract:()=>this.go('document',{docId:d.contract}), contractName:this.doc(d.contract).name};
-    } else if(kind==='reconciliation'){
-      base.recon={
-        stats:[{label:'Начальный долг',value:this.money(0)},{label:'Принято по актам',value:this.money(550)},{label:'Оплачено',value:this.money(400)},{label:'Конечный долг',value:this.money(150)}],
-        rows:[['Начальный долг',0,0,0],['Принятые работы',550,550,0],['Оплаты',400,350,50],['Конечный долг',150,200,-50]].map(x=>({label:x[0],a:this.num(x[1]),b:this.num(x[2]),diff:this.num(x[3])})),
-        ledger:this.ledgerRows()
-      };
-    } else {
-      base.generic={
-        meta:[['Система',s.name],['Период',d.period],['Источник','ИТ-центр (условный пример)'],['Статус',d.status],...(d.amount!=null?[['Сумма',this.money(d.amount)]]:[])].map(([label,value])=>({label,value})),
-        isTz: d.kind==='Техническое задание'
-      };
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = c.colour;
+      ctx.fillRect(c.col * cell + 1, c.row * cell + 1, cell - 1, cell - 1);
     }
-    return base;
-  }
+    ctx.globalAlpha = 1;
+    if (cells.size > 0) frame = requestAnimationFrame(draw);
+  };
+  const wake = () => { if (!frame) frame = requestAnimationFrame(draw); };
 
-  buildProposals(){
-    const ps=this.filteredProposals();
-    const sel=ps.find(p=>p.id===this.state.selProposal)||ps[0];
-    return {
-      q:this.state.filters.q||'', onQChange:e=>this.setFilter('q',e.target.value),
-      yearOptions:[{value:'',label:'Все годы'},{value:'2027',label:'2027'},{value:'2028',label:'2028'}], yearVal:this.state.filters.year||'', onYearChange:v=>this.setFilter('year',v),
-      deptOptions:this.deptOptions(), deptVal:this.state.filters.dept||'', onDeptChange:v=>this.setFilter('dept',v),
-      statusOptions:[{value:'',label:'Все статусы'},{value:'Черновик',label:'Черновик'},{value:'Получено',label:'Получено'},{value:'На уточнении',label:'На уточнении'},{value:'В проекте плана',label:'В проекте плана'}], statusVal:this.state.filters.status||'', onStatusChange:v=>this.setFilter('status',v),
-      onNew:()=>this.go('proposal-form',{formId:null}),
-      stats:[{label:'В выборке',value:String(ps.length)},{label:'На уточнении',value:String(ps.filter(p=>p.status==='На уточнении').length)},{label:'В проекте плана',value:String(ps.filter(p=>p.status==='В проекте плана').length)}],
-      rows: ps.map(p=>({id:p.id,title:p.title,system:this.sys(p.system)?.name||p.newSystem||'Новая система',year:p.year,status:p.status,statusVariant:this.badgeVariant(p.status),amount:this.num(p.amount),
-        rowBg: sel&&sel.id===p.id?'var(--bg-canvas-soft)':'transparent', onSelect:()=>this.selectProposal(p.id)})),
-      hasSelection:!!sel,
-      sel: sel? {
-        id:sel.id, title:sel.title,
-        meta:[
-          {label:'Система',value:this.sys(sel.system)?.name||sel.newSystem||'Новая система',isText:true,isBadge:false},
-          {label:'Заказчик',value:this.demo.departments[sel.dept]||'Не выбран',isText:true,isBadge:false},
-          {label:'Ответственный',value:sel.person||'Не указан',isText:true,isBadge:false},
-          {label:'Вид работ',value:sel.type,isText:true,isBadge:false},
-          {label:'Дата поступления',value:sel.date||'Не указана',isText:true,isBadge:false},
-          {label:'Год',value:String(sel.year),isText:true,isBadge:false},
-          {label:'Потребность',value:sel.amount==null?'Не оценена':this.money(sel.amount),isText:true,isBadge:false},
-          {label:'Статус',value:sel.status,isBadge:true,isText:false,badgeVariant:this.badgeVariant(sel.status)}
-        ],
-        problem:sel.problem||'Требуется уточнение обоснования.', result:sel.result||'Ожидаемый результат будет уточнён при рассмотрении.',
-        isDraft: sel.status==='Черновик', isLocal: !!sel.local,
-        onContinue:()=>this.go('proposal-form',{formId:sel.id}),
-        onSource:()=>this.openModal('source',sel.id),
-        onRemove:()=>this.openModal('confirm-remove',sel.id),
-        discussion: this.discussionFor('proposal',sel.id)
-      }: null
-    };
-  }
-
-  updateDraft(key,value){
-    this.setState(s=>{
-      const draft={...s.draft,[key]:value};
-      if(!s.route.formId) this.saveLS('draft',draft);
-      return {draft};
-    });
-  }
-  onFiles(e){
-    const names=Array.from(e.target.files||[]).map(f=>f.name);
-    this.setState(s=>{ const draft={...s.draft,attachments:names}; if(!s.route.formId) this.saveLS('draft',draft); return {fileNames:names, draft}; });
-  }
-  saveProposal(isDraft){
-    const d=this.state.draft||{};
-    if(!isDraft){
-      const required=['title','system','type','dept','person','problem','result'];
-      for(const k of required){ if(d[k]===undefined||d[k]===null||d[k]===''){ this.showToast('Заполните обязательные поля перед отправкой.'); return; } }
-      if(d.system==='new' && !d.newSystem){ this.showToast('Укажите название новой системы.'); return; }
-      if(d.deadline && d.year && Number(String(d.deadline).slice(0,4))!==Number(d.year)){ this.showToast('Целевой срок должен находиться в выбранном плановом году.'); return; }
-    } else {
-      if(!d.title || !String(d.title).trim()){ this.showToast('Укажите название, чтобы сохранить черновик.'); return; }
+  const light = (col, row, hold) => {
+    if (col < 0 || row < 0 || col >= cols || row >= rows) return;
+    if (cells.size >= maxLit) return;
+    const key = col + ',' + row;
+    const now = performance.now();
+    const lit = cells.get(key);
+    if (lit && now < lit.until) return;
+    let born = now;
+    if (lit) {
+      const faded = 1 - easeIn(Math.min(1, (now - lit.until) / FADE_OUT));
+      born = now - (1 - Math.sqrt(1 - faded)) * FADE_IN;
     }
-    const id=this.state.route.formId || ('ЛОК-'+Date.now().toString(36).toUpperCase());
-    const proposal={...d, id, dept:Number(d.dept), year:Number(d.year||2027), amount:(d.amount===''||d.amount==null)?null:Number(d.amount), attachments:[...this.state.fileNames], local:true, status:isDraft?'Черновик':'Получено', date:new Date().toLocaleDateString('ru-RU')};
-    const next=[proposal, ...this.state.saved.filter(x=>x.id!==id)];
-    if(!this.saveLS('proposals',next)){ this.showToast('Браузер не разрешил сохранение.'); return; }
-    if(!isDraft) this.saveLS('draft',{});
-    this.setState({saved:next, selProposal:id, draft:isDraft?d:{}, route:{page:'proposals',proposalId:id}});
-    this.showToast(isDraft?'Черновик сохранён в этом браузере.':'Предложение зарегистрировано локально. Внешняя отправка не выполнялась.');
-  }
-  confirmRemoveProposal(id){
-    const next=this.state.saved.filter(p=>p.id!==id);
-    this.saveLS('proposals',next);
-    this.setState({saved:next, modal:null});
-    this.showToast('Локальная запись удалена.');
-  }
-  downloadBackup(){
-    const payload={schemaVersion:1, exportedAt:new Date().toISOString(), proposals:this.state.saved, draft:this.state.draft};
-    this.download('MEF_local_proposals.json', JSON.stringify(payload,null,2), 'application/json');
-  }
+    cells.set(key, { col, row, colour: lit ? lit.colour : ink(row), born, until: now + hold });
+    wake();
+  };
 
-  buildProposalForm(){
-    const editing=!!this.state.route.formId;
-    const d=this.state.draft||{};
-    return {
-      title: editing? 'Редактирование черновика' : 'Новое предложение',
-      title_: d.title||'', onTitleChange:e=>this.updateDraft('title',e.target.value),
-      systemOptions:this.systemOptionsForm(), systemVal:d.system||'', onSystemChange:v=>this.updateDraft('system',v),
-      typeOptions:[{value:'Развитие',label:'Развитие'},{value:'Новая разработка',label:'Новая разработка'},{value:'Поддержка',label:'Поддержка'},{value:'Интеграция',label:'Интеграция'}], typeVal:d.type||'Развитие', onTypeChange:v=>this.updateDraft('type',v),
-      isNewSystem: d.system==='new', newSystemVal:d.newSystem||'', onNewSystemChange:e=>this.updateDraft('newSystem',e.target.value),
-      deptOptions:this.demo.departments.map((x,i)=>({value:String(i),label:x})), deptVal:d.dept!=null?String(d.dept):'', onDeptChange:v=>this.updateDraft('dept',v),
-      personVal:d.person||'', onPersonChange:e=>this.updateDraft('person',e.target.value),
-      yearOptions:[{value:'2027',label:'2027'},{value:'2028',label:'2028'}], yearVal:d.year?String(d.year):'2027', onYearChange:v=>this.updateDraft('year',v),
-      deadlineVal:d.deadline||'', onDeadlineChange:e=>this.updateDraft('deadline',e.target.value),
-      problemVal:d.problem||'', onProblemChange:e=>this.updateDraft('problem',e.target.value),
-      resultVal:d.result||'', onResultChange:e=>this.updateDraft('result',e.target.value),
-      amountVal: d.amount??'', onAmountChange:e=>this.updateDraft('amount',e.target.value),
-      onFiles: e=>this.onFiles(e), fileNamesLabel: (this.state.fileNames&&this.state.fileNames.length)? this.state.fileNames.join(', ') : 'Можно подать без технического задания.',
-      onCancel:()=>this.go('proposals'), onSaveDraft:()=>this.saveProposal(true), onSubmit:()=>this.saveProposal(false),
-      onBackup:()=>this.downloadBackup()
-    };
-  }
+  const measure = () => {
+    width = el.clientWidth; height = el.clientHeight;
+    cols = Math.max(1, Math.ceil(width / cell));
+    rows = Math.max(1, Math.ceil(height / cell));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    paper.width = Math.round(width * dpr);
+    paper.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    readTheme();
+    wake();
+  };
 
-  buildModal(){
-    const m=this.state.modal; if(!m) return null;
-    if(m.kind==='preview'){
-      const d=this.doc(m.payload);
-      const hasAct=d.kind==='Акт';
-      return {kind:'preview', title:d.name, preview:{
-        hasAct, noAct:!hasAct,
-        actRows: hasAct? this.actTableRows(d).map(r=>({name:r.name,sum:r.sum})) : [],
-        meta: hasAct? [] : [{label:'Система',value:this.sys(d.system).name},{label:'Период',value:d.period},{label:'Статус',value:d.status}],
-        sections: hasAct? [] : this.previewSections(d),
-        onDownload:()=>this.showToast('Скачан демонстрационный образец PDF.'), onPrint:()=>window.print()
-      }};
+  let beat = window.setTimeout(drift, 500);
+  function drift() {
+    beat = window.setTimeout(drift, 500 + Math.random() * 500);
+    if (document.hidden) return;
+    for (let i = 0; i < ambient; i++) {
+      light(Math.floor(Math.random() * cols), Math.floor(Math.random() * rows), 1200 + Math.random() * 2000);
     }
-    if(m.kind==='versions'){
-      const d=this.doc(m.payload);
-      return {kind:'versions', title:'История версий', versions:{name:d.name, rows:Array.from({length:d.version},(_,i)=>d.version-i).map(v=>({v,label:v===d.version?'Текущая редакция':'Предыдущая редакция',status:v===d.version?d.status:'Архив — файл не включён в прототип', variant:v===d.version?this.badgeVariant(d.status):'neutral'}))}};
-    }
-    if(m.kind==='source') return {kind:'source', title:'Источник не подключён', source:{id:m.payload}};
-    if(m.kind==='confirm-remove') return {kind:'confirm-remove', title:'Удаление локальной записи', confirmRemove:{onConfirm:()=>this.confirmRemoveProposal(m.payload)}};
-    if(m.kind==='help') return {kind:'help', title:'Источники и определения'};
-    return null;
   }
 
-  renderVals(){
-    const route=this.state.route||{page:'overview'};
-    const page=route.page;
-    const modalVm=this.buildModal();
+  const resize = new ResizeObserver(measure);
+  resize.observe(el);
+  const theme = new MutationObserver(readTheme);
+  theme.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'style', 'data-theme'] });
+  const scheme = window.matchMedia('(prefers-color-scheme: dark)');
+  scheme.addEventListener('change', readTheme);
+  measure();
+
+  return () => {
+    resize.disconnect();
+    theme.disconnect();
+    scheme.removeEventListener('change', readTheme);
+    cancelAnimationFrame(frame);
+    clearTimeout(beat);
+  };
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.boxRef = React.createRef();
+    this.canvasRef = React.createRef();
+    this.state = { email: '', password: '', error: '' };
+  }
+  componentDidMount() {
+    this._stopGrid = initGridPulse(this.boxRef.current, this.canvasRef.current);
+  }
+  componentWillUnmount() {
+    if (this._stopGrid) this._stopGrid();
+  }
+  renderVals() {
     return {
-      selectWidth:{width:'auto'},
-      navItems:[
-        {key:'overview',label:'Обзор'},{key:'systems',label:'Системы'},{key:'proposals',label:'Предложения'},{key:'documents',label:'Документы'}
-      ],
-      navActiveKey: {overview:'overview',systems:'systems',system:'systems',documents:'documents',document:'documents',proposals:'proposals','proposal-form':'proposals'}[page]||'overview',
-      navSelect:(k)=>this.navSelect(k),
-      topTabs: [{key:'overview',label:'Обзор'},{key:'systems',label:'Системы'},{key:'proposals',label:'Предложения'},{key:'documents',label:'Документы'}].map(i=>({value:i.key,label:i.label})),
-      tabsStyle:{border:'none',marginBottom:0},
-      sidebarHeader: 'МЭФ · Аналитика',
-      sidebarFooter: 'Координирующий департамент',
-      isOverview: page==='overview',
-      isSystems: page==='systems',
-      isSystemPage: page==='system',
-      isSystemGeneral: page==='system' && (route.tab||'general')==='general',
-      isSystemWork: page==='system' && route.tab==='work',
-      isSystemBudget: page==='system' && route.tab==='budget',
-      isSystemDocuments: page==='system' && route.tab==='documents',
-      isWorkWorks: this.state.workTab==='works', isWorkPeople: this.state.workTab==='people', isWorkReleases: this.state.workTab==='releases', isWorkIssues: this.state.workTab==='issues',
-      isDocuments: page==='documents',
-      isDocument: page==='document',
-      isDocContract: page==='document' && this.doc(route.docId||this.state.selDoc)&&(route.docId||this.state.selDoc)==='d026',
-      isDocAct: page==='document' && this.doc(route.docId||this.state.selDoc)&&this.doc(route.docId||this.state.selDoc).kind==='Акт',
-      isDocReconciliation: page==='document' && (route.docId||this.state.selDoc)==='s009',
-      isDocGeneric: page==='document' && !(this.doc(route.docId||this.state.selDoc)&&((route.docId||this.state.selDoc)==='d026'||this.doc(route.docId||this.state.selDoc).kind==='Акт'||(route.docId||this.state.selDoc)==='s009')),
-      isProposals: page==='proposals',
-      isProposalForm: page==='proposal-form',
-      ov: page==='overview'? this.buildOverview(): null,
-      sy: page==='systems'? this.buildSystemsList(): null,
-      sp: page==='system'? this.buildSystemPage(): null,
-      dc: (page==='documents'||(page==='system'&&route.tab==='documents'))? this.buildDocuments(page==='system'?route.systemId:null): null,
-      dd: page==='document'? this.buildDocumentDetail(): null,
-      pr: page==='proposals'? this.buildProposals(): null,
-      pf: page==='proposal-form'? this.buildProposalForm(): null,
-      toastOpen: !!this.state.toast, toastText: this.state.toast||'',
-      modalOpen: !!modalVm, modalTitle: modalVm?modalVm.title:'', modal: modalVm||{},
-      isModalPreview: modalVm&&modalVm.kind==='preview', isModalVersions: modalVm&&modalVm.kind==='versions',
-      isModalSource: modalVm&&modalVm.kind==='source', isModalConfirmRemove: modalVm&&modalVm.kind==='confirm-remove', isModalHelp: modalVm&&modalVm.kind==='help',
-      closeModal:()=>this.closeModal(),
-      openHelp:()=>this.openModal('help',null),
-      helpRows:[['План','Утверждённое годовое финансирование'],['Договоры','Обязательства по подписанным договорам'],['Принято','Подтверждённые акты; акты на проверке исключены'],['Оплачено','Подтверждённые платежи финансового источника'],['Трудозатраты','Учтённые часы из API ИТ-центра'],['Релизы','Уникальные опубликованные версии'],['Потребность','Предварительная оценка будущего года']].map(([k,v])=>({k,v}))
+      boxRef: this.boxRef,
+      canvasRef: this.canvasRef,
+      email: this.state.email,
+      password: this.state.password,
+      error: this.state.error,
+      onSso: () => {
+        window.location.href = './dashboard.html';
+      },
+      onEmailChange: (v) => this.setState({ email: v, error: '' }),
+      onPasswordChange: (v) => this.setState({ password: v, error: '' }),
+      onLogin: () => {
+        if (!this.state.email || !this.state.password) {
+          this.setState({ error: 'Введите эл. почту и пароль.' });
+          return;
+        }
+        window.location.href = './dashboard.html';
+      }
     };
   }
 }
-
 </script>
 </body>
 </html>

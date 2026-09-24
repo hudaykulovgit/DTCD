@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/colors.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/typography.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/radius.css">
+<link rel="stylesheet" href="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/tokens/fonts.css">
+<script src="_ds/expo-style-dashboard-design-system-2956c4ad-5a6b-4b67-95a9-899ada99c826/_ds_bundle.js"></script>
+</helmet>
+<div style="display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr);font-family:var(--font-sans)">
+<div style="padding:0 40px 48px;min-width:0;overflow-x:auto">
+<div style="display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+<div style="flex:1;min-width:200px"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Input" placeholder="Поиск по названию или номеру" value="{{ data.q }}" on-change="{{ data.onQChange }}" hint-size="100%,44px"></x-import></div>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ data.yearOptions }}" value="{{ data.yearVal }}" on-change="{{ data.onYearChange }}" hint-size="140px,44px"></x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ data.kindOptions }}" value="{{ data.kindVal }}" on-change="{{ data.onKindChange }}" hint-size="180px,44px"></x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ data.statusOptions }}" value="{{ data.statusVal }}" on-change="{{ data.onStatusChange }}" hint-size="180px,44px"></x-import>
+<sc-if value="{{ data.showSystemFilter }}" hint-placeholder-val="{{ false }}">
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Select" options="{{ data.systemOptions }}" value="{{ data.systemVal }}" on-change="{{ data.onSystemChange }}" hint-size="200px,44px"></x-import>
+</sc-if>
+</div>
+<table style="width:100%;border-collapse:collapse">
+<thead><tr>
+<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Документ</th>
+<sc-if value="{{ data.showSystemFilter }}" hint-placeholder-val="{{ false }}"><th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Система</th></sc-if>
+<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Период</th>
+<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Версия</th>
+<th class="type-caption-upper" style="text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-strong)">Статус</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ data.rows }}" as="r" hint-placeholder-count="6">
+<tr style="background:{{ r.rowBg }}" style-hover="background:var(--bg-canvas-soft)">
+<td style="padding:11px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onSelect }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;text-align:left">{{ r.name }}</button></td>
+<sc-if value="{{ r.hasSystem }}" hint-placeholder-val="{{ false }}"><td style="padding:11px 12px;border-bottom:1px solid var(--border-default)"><button onClick="{{ r.onSystem }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit">{{ r.systemName }}</button></td></sc-if>
+<td class="type-body-sm" style="padding:11px 12px;border-bottom:1px solid var(--border-default);white-space:nowrap">{{ r.period }}</td>
+<td class="type-body-sm" style="padding:11px 12px;border-bottom:1px solid var(--border-default)">{{ r.version }}</td>
+<td style="padding:11px 12px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ r.statusVariant }}" hint-size="auto,22px">{{ r.status }}</x-import></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:14px">
+<span class="type-caption" style="color:var(--text-muted)">Документов: {{ data.count }}</span>
+<button onClick="{{ data.onExport }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:12px">Экспорт реестра CSV</button>
+</div>
+<sc-if value="{{ data.showCompleteness }}" hint-placeholder-val="{{ false }}">
+<h3 class="type-title-sm" style="margin:22px 0 12px">Комплектность документов</h3>
+<table style="width:100%"><tbody>
+<sc-for list="{{ data.completeness }}" as="c" hint-placeholder-count="2">
+<tr><td class="type-body-sm" style="padding:11px 10px;border-bottom:1px solid var(--border-default)">{{ c.label }}</td><td style="padding:11px 10px;border-bottom:1px solid var(--border-default)"><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ c.variant }}" hint-size="auto,22px">{{ c.status }}</x-import></td></tr>
+</sc-for>
+</tbody></table>
+<p class="type-caption" style="color:var(--text-muted);margin-top:12px">Отсутствие файла не означает отсутствие документа.</p>
+</sc-if>
+<sc-if value="{{ data.showRegistryNote }}" hint-placeholder-val="{{ true }}">
+<p class="type-caption" style="color:var(--text-muted);margin-top:16px">Суммы договоров, актов и оплат учитываются отдельно. Статусы приведены для демонстрации.</p>
+</sc-if>
+</div>
+<div style="border-left:1px solid var(--border-default);padding:0 32px">
+<sc-if value="{{ data.hasSelection }}" hint-placeholder-val="{{ false }}">
+<h2 class="type-display-sm" style="margin:0 0 4px">{{ data.inspector.name }}</h2>
+<p class="type-body-sm" style="color:var(--text-muted);margin:0 0 16px">{{ data.inspector.subtitle }}</p>
+<sc-for list="{{ data.inspector.meta }}" as="m" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)">
+<div class="type-caption" style="color:var(--text-muted)">{{ m.label }}</div>
+<div class="type-body-sm">{{ m.value }}</div>
+</div>
+</sc-for>
+<div style="border:1px solid var(--border-default);border-radius:var(--radius-md);padding:12px 14px;display:flex;align-items:center;gap:10px;margin:16px 0">
+<span class="type-body-sm">{{ data.inspector.fileLabel }}</span>
+<div style="flex:1"></div>
+<button onClick="{{ data.inspector.onDownload }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:12px">Скачать</button>
+</div>
+<h3 class="type-title-sm" style="margin:16px 0 10px">Подтверждение</h3>
+<sc-for list="{{ data.inspector.confirm }}" as="cf" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--border-default)">
+<div class="type-caption" style="color:var(--text-muted)">{{ cf.label }}</div>
+<sc-if value="{{ cf.isBadge }}" hint-placeholder-val="{{ false }}"><div><x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Badge" variant="{{ cf.badgeVariant }}" hint-size="auto,22px">{{ cf.value }}</x-import></div></sc-if>
+<sc-if value="{{ cf.isText }}" hint-placeholder-val="{{ true }}"><div class="type-body-sm">{{ cf.value }}</div></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ data.inspector.warnReview }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin-top:14px">Не включён в принятые работы: согласование не завершено.</p></sc-if>
+<sc-if value="{{ data.inspector.warnRecon }}" hint-placeholder-val="{{ false }}"><p class="type-caption" style="color:var(--semantic-warning);background:#fbf1e0;padding:10px 12px;border-radius:var(--radius-md);margin-top:14px">Не сопоставлен платёж на 50 млн сум. Требуется подтверждение в источнике.</p></sc-if>
+<div style="display:flex;gap:10px;margin-top:16px">
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="primary" on-click="{{ data.inspector.onPreview }}" hint-size="auto,40px">Открыть документ</x-import>
+<x-import component-from-global-scope="ExpoStyleDashboardDesignSystem_2956c4.Button" variant="secondary" on-click="{{ data.inspector.onVersions }}" hint-size="auto,40px">История версий</x-import>
+</div>
+<div style="display:flex;gap:16px;margin-top:14px">
+<button onClick="{{ data.inspector.onOpenDetail }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:13px">Подробная карточка</button>
+<button onClick="{{ data.inspector.onSource }}" style="background:transparent;border:none;padding:0;color:var(--text-link);cursor:pointer;font:inherit;font-size:13px">Открыть источник</button>
+</div>
+<p class="type-caption" style="color:var(--text-muted);margin-top:16px">PDF — демонстрационный образец, не официальный документ.</p>
+</sc-if>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;data&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any&quot;}}"></script>
+</body>
+</html>
